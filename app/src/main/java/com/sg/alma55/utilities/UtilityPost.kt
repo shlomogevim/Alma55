@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sg.alma55.R
 import com.sg.alma55.modeles.Post
+import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
 import com.sg.alma55.utilities.Constants.COMMEND_INDEX
 import com.sg.alma55.utilities.Constants.COMMEND_TIME_STAMP
@@ -25,6 +26,7 @@ import com.sg.alma55.utilities.Constants.COMMENT_TEXT
 import com.sg.alma55.utilities.Constants.COMMENT_USER_ID
 import com.sg.alma55.utilities.Constants.COMMENT_USER_NAME
 import com.sg.alma55.utilities.Constants.DIALOG_EXSTRA
+import com.sg.alma55.utilities.Constants.FIRESTORE_USER_ID
 import com.sg.alma55.utilities.Constants.POST_BACKGROUND
 import com.sg.alma55.utilities.Constants.POST_FONT_FAMILY
 import com.sg.alma55.utilities.Constants.POST_ID
@@ -40,10 +42,21 @@ import com.sg.alma55.utilities.Constants.POST_TEXT_COLOR
 import com.sg.alma55.utilities.Constants.POST_TEXT_SIZE
 import com.sg.alma55.utilities.Constants.POST_TIME_STAMP
 import com.sg.alma55.utilities.Constants.POST_TRANPARECY
+import com.sg.alma55.utilities.Constants.USER_BIO
+import com.sg.alma55.utilities.Constants.USER_EMAIL
+import com.sg.alma55.utilities.Constants.USER_FULLNAME
+import com.sg.alma55.utilities.Constants.USER_IMAGE
+import com.sg.alma55.utilities.Constants.USER_USERNAME
 
 class UtilityPost {
 
     val currentUser = FirebaseAuth.getInstance().currentUser
+
+    fun deleteComment(comment: Comment) {
+        //  logi("Utility 111      comment.postNumString=${comment.postNumString}           comment.commntId=${comment.commntId}")
+        FirebaseFirestore.getInstance().collection(Constants.COMMENT_REF).document(comment.postNumString)
+            .collection(Constants.COMMENT_LIST).document(comment.commntId).delete()
+    }
 
 
     fun activatePosts(activity: Activity) {
@@ -257,7 +270,7 @@ class UtilityPost {
                })
            alertDialog.show()
        }*/
-  /*  fun convertToUser(snap: DocumentSnapshot?): User {
+    fun convertToUser(snap: DocumentSnapshot?): User {
         var userName = ""
         var fullName = "no fullName"
         var email: String = "no email"
@@ -281,7 +294,7 @@ class UtilityPost {
             moto = dio
         )
         return newUser
-    }*/
+    }
 
 
 

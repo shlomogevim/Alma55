@@ -10,17 +10,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.sg.alma55.activities.MainActivity
-import com.sg.alma55.activities.SplashActivity
+import com.sg.alma55.activities.*
 import com.sg.alma55.modeles.User
+import com.sg.alma55.utilities.Constants.USER_PROFILE_IMAGE
 import com.sg.alma55.utilities.Constants.USER_REF
+import com.sg.alma55.utilities.Constants.getFileExtension
 import java.util.HashMap
 
 class FirestoreClass:BaseActivity(){
 
     private val mFirestore= FirebaseFirestore.getInstance()
 
-   /* fun registerUser(activity: RegisterActivity, userInfo: User) {
+    fun registerUser(activity: RegisterActivity, userInfo: User) {
         // The "users" is collection name. If the collection is already created then it will not create the same one again.
         mFirestore.collection(USER_REF)
             // Document ID for users fields. Here the document it is the User ID.
@@ -39,7 +40,7 @@ class FirestoreClass:BaseActivity(){
                     e
                 )
             }
-    }*/
+    }
 
     fun getCurrentUserID(): String {
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -92,12 +93,12 @@ class FirestoreClass:BaseActivity(){
                         is MainActivity -> {
                             activity.getCurrentUser(user)
                         }
-//                        is LoginActivity -> {
-//                            activity.userLoggedInSuccess(user)
-//                        }
-//                        is PostDetailesActivity -> {
-//                            activity.getUserNameSetting(user)
-//                        }
+                        is LoginActivity -> {
+                            activity.userLoggedInSuccess(user)
+                        }
+                        is PostDetailesActivity -> {
+                            activity.getUserNameSetting(user)
+                        }
 //                        is PostSettingActivity -> {
 //                            activity.getUserNameSetting(user)
 //                        }
@@ -149,7 +150,7 @@ class FirestoreClass:BaseActivity(){
         editor.apply()
     }*/
 
-  /*  fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
         // Collection Name
         mFirestore.collection(USER_REF).document(getCurrentUserID()).update(userHashMap)
             .addOnSuccessListener {
@@ -175,9 +176,9 @@ class FirestoreClass:BaseActivity(){
                     e
                 )
             }
-    }*/
+    }
 
-  /*  fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
+    fun uploadImageToCloudStorage(activity: Activity, imageFileURI: Uri?) {
         //getting the storage reference
         val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
             USER_PROFILE_IMAGE + System.currentTimeMillis() + "."
@@ -215,7 +216,7 @@ class FirestoreClass:BaseActivity(){
                     exception
                 )
             }
-    }*/
+    }
 
 
 

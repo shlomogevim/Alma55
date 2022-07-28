@@ -39,11 +39,11 @@ open class BaseActivity : AppCompatActivity() {
         snackBar.show()
     }
 
-   /* fun showProgressDialog(text: String) {
+    fun showProgressDialog(text: String) {
         mProgressDialog = Dialog(this)
 
-        *//*Set the screen content from a layout resource.
-        The resource will be inflated, adding all top-level views to the screen.*//*
+        /*Set the screen content from a layout resource.
+        The resource will be inflated, adding all top-level views to the screen.*/
         mProgressDialog.setContentView(R.layout.dialog_porgress)
 
         mProgressDialog.findViewById<TextView>(R.id.tv_progress_text).text = text
@@ -53,10 +53,12 @@ open class BaseActivity : AppCompatActivity() {
 
         //Start the dialog and display it on screen.
         mProgressDialog.show()
-    }*/
+    }
 
 
-
+    /**
+     * This function is used to dismiss the progress dialog if it is visible to user.
+     */
     fun hideProgressDialog() {
         mProgressDialog.dismiss()
     }
@@ -79,6 +81,11 @@ open class BaseActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
     }
+
+    /**
+     * A function to implement the double back press feature to exit the app.
+     */
+
 
     fun logi(
         element1: String,

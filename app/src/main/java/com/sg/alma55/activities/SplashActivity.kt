@@ -322,8 +322,8 @@ iv.startAnimation(animation1);*/
             {  if (!pressHelpBtn) {
                 startActivity(Intent(this, MainActivity::class.java))
             }
-            }, delayInMicroSecond.toLong()
-//           }, 0
+         //   }, delayInMicroSecond.toLong()
+         }, 0
         )
     }
 }

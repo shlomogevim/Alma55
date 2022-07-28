@@ -1,22 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sg.alma55">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.Alma55">
+        <activity
+            android:name=".activities_tt.GradePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities_tt.SplashDelayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities_tt.GeneralCommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities_tt.CommentsScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.UpdateCommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.GetNextPost"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.PostDetailesActivity"
             android:exported="false" />
         <activity
             android:name=".utilities.HelpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".utilities.MainActivity"
             android:exported="false" />
         <activity
             android:name=".utilities.HelpExplanationActivity"

@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.sg.alma55.models.Comment
+import com.sg.alma55.utilities.Constants.COMMENT_LIST
+import com.sg.alma55.utilities.Constants.COMMENT_REF
 
 
 import kotlin.collections.ArrayList
@@ -21,6 +25,12 @@ import kotlin.coroutines.suspendCoroutine
 class Utility {
 
     val currentUser = FirebaseAuth.getInstance().currentUser
+
+    fun deleteComment(comment: Comment) {
+        //  logi("Utility 111      comment.postNumString=${comment.postNumString}           comment.commntId=${comment.commntId}")
+        FirebaseFirestore.getInstance().collection(COMMENT_REF).document(comment.postNumString)
+            .collection(COMMENT_LIST).document(comment.commntId).delete()
+    }
 
 
     fun logi(
@@ -282,11 +292,7 @@ class Utility {
             }
     }*/
 
-   /* fun deleteComment(comment: Comment) {
-        //  logi("Utility 111      comment.postNumString=${comment.postNumString}           comment.commntId=${comment.commntId}")
-        FirebaseFirestore.getInstance().collection(COMMENT_REF).document(comment.postNumString)
-            .collection(COMMENT_LIST).document(comment.commntId).delete()
-    }
+   /*
 
 
     fun retriveCommentFromFirestore(snap: DocumentSnapshot?): Comment {
