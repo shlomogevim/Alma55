@@ -3,12 +3,10 @@ package com.sg.alma55.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sg.alma55.R
 import com.sg.alma55.activities_tt.CommentsScreenActivity
 import com.sg.alma55.activities_tt.GeneralCommentActivity
 import com.sg.alma55.activities_tt.GradePostActivity
@@ -26,7 +24,7 @@ import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_GRADE
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
-import com.sg.alma55.utilities.Constants.SHARPREF_SORT_TOTAL
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.FirestoreClass
 import java.lang.reflect.Type
 
@@ -85,7 +83,7 @@ class SetupActivity : BaseActivity() {
             logi("SetupActivity 81       gradeIsZero= $gradeIsZero")
 
             if (gradeIsZero== FALSE){
-                pref.edit().putString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_GRADE).apply()
+                pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_GRADE).apply()
                 pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
                 startActivity(Intent(this, MainActivity::class.java))
             }else{
@@ -97,12 +95,12 @@ class SetupActivity : BaseActivity() {
         }
 
         binding.btnTimeOrder.setOnClickListener {
-            pref.edit().putString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+            pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
             pref.edit().putInt(Constants.SHARPREF_CURRENT_POST_NUM, 0).apply()
             startActivity(Intent(this, MainActivity::class.java))
         }
         binding.btnRecommenderOrder.setOnClickListener {
-            pref.edit().putString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_RECOMMENDED).apply()
+            pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
             pref.edit().putInt(Constants.SHARPREF_CURRENT_POST_NUM, 0).apply()
             startActivity(Intent(this, MainActivity::class.java))
         }

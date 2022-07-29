@@ -68,12 +68,20 @@
                 app:layout_constraintTop_toBottomOf="@id/btnHelp_general" />
 
             <Button
+                android:id="@+id/btnHelp_postOrder"
+                style="@style/ButtonFamily10"
+                android:text="סדר הופעת הפוסטים"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnHelp_starting" />
+
+            <Button
                 android:id="@+id/btnHelp_TimeOrder"
                 style="@style/ButtonFamily10"
                 android:text="סדר הופעת הפוסטים לפי זמן הפרסום"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnHelp_starting" />
+                app:layout_constraintTop_toBottomOf="@id/btnHelp_postOrder" />
 
             <Button
                 android:id="@+id/btnHelp_GradePost"

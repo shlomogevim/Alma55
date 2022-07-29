@@ -11,7 +11,6 @@ import android.view.animation.AlphaAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sg.alma55.R
 import com.sg.alma55.databinding.ActivitySplashBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
@@ -24,8 +23,6 @@ import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
-import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
-import com.sg.alma55.utilities.Constants.SHARPREF_SORT_TOTAL
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
 import com.sg.alma55.utilities.Constants.SHARPREF_TOTAL_POSTS_SIZE
 import com.sg.alma55.utilities.Constants.TRUE
@@ -77,8 +74,9 @@ class SplashActivity : AppCompatActivity() {
     private fun initData() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
-//        pref.edit().putString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_RECOMMENDED).apply()
-        pref.edit().putString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+//        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
+       // pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+
         delayInMicroSecond= pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY,10)*1000
     }
 
@@ -317,12 +315,12 @@ iv.startAnimation(animation1);*/
 
 
     private fun pauseIt() {
-//        val sortSystem =  pref.getString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+//        val sortSystem =  pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
         Handler().postDelayed(
             {  if (!pressHelpBtn) {
                 startActivity(Intent(this, MainActivity::class.java))
             }
-            }, delayInMicroSecond.toLong()
+           }, delayInMicroSecond.toLong()
 //         }, 0
         )
     }

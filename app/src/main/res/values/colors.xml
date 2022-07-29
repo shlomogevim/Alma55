@@ -31,4 +31,8 @@
     <color name="colorLightGrey">#F1F1F1</color>
     <color name="colorBorder">#E8E6E6</color>
     <color name="colorDarkGrey">#878787</color>
+
+    <color name="backgroundTimePublish">#2DD3F4</color>
+    <color name="backgroundRecommended">#6fc27c</color>
+    <color name="backgroundGrade">#F5D042</color>
 </resources>

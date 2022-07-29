@@ -45,6 +45,11 @@ class HelpActivity : AppCompatActivity() {
             intent.putExtra(HELP_EXPLANATION_INDEX,2)
             startActivity(intent)
         }
+        binding.btnHelpPostOrder.setOnClickListener {
+            val intent= Intent(this,HelpExplanationActivity::class.java)
+            intent.putExtra(HELP_EXPLANATION_INDEX,21)
+            startActivity(intent)
+        }
         binding.btnHelpTimeOrder.setOnClickListener {
             val intent= Intent(this,HelpExplanationActivity::class.java)
             intent.putExtra(HELP_EXPLANATION_INDEX,3)

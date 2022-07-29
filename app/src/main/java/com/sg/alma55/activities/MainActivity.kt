@@ -2,9 +2,9 @@ package com.sg.alma55.activities
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +23,7 @@ import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_GRADE
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
-import com.sg.alma55.utilities.Constants.SHARPREF_SORT_TOTAL
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import java.lang.reflect.Type
 
 class MainActivity : BaseActivity() {
@@ -48,10 +48,31 @@ class MainActivity : BaseActivity() {
         gson = Gson()
         rvPosts = binding.rvPosts
         pref = getSharedPreferences(Constants.SHARPREF_ALMA, Context.MODE_PRIVATE)
-        FirestoreClass().getUserDetails(this)
-        sortSystem = pref.getString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_RECOMMENDED).toString()
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
-        // logi("MainActivity 57   onCreate  57            ")
+        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).toString()
+
+        FirestoreClass().getUserDetails(this)
+        sortSystemBackground()
+
+
+
+    }
+
+    private fun sortSystemBackground() {
+        if (sortSystem==SHARPREF_SORT_BY_RECOMMENDED){
+            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundRecommended))
+        }
+        if (sortSystem== SHARPREF_SORT_BY_TIME_PUBLISH){
+            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundTimePublish))
+        }
+        if (sortSystem== SHARPREF_SORT_BY_GRADE){
+            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundGrade))
+        }
+
+
     }
 
     override fun onResume() {
@@ -59,7 +80,7 @@ class MainActivity : BaseActivity() {
         //  logi("MainActivity onResum 61              sortSystem$sortSystem")
         posts.clear()
         posts = loadPosts()
-        sortSystem = pref.getString(SHARPREF_SORT_TOTAL, SHARPREF_SORT_BY_RECOMMENDED).toString()
+        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).toString()
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
         FirestoreClass().getUserDetails(this)
         sortPosts()
