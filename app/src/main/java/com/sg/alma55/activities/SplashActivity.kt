@@ -70,6 +70,11 @@ class SplashActivity : AppCompatActivity() {
         currentUser = user
 //        currentUser=null
         //     logi("SplashActivity   81      currentUser = $currentUser  "  )
+        if (currentUser==null){
+
+        }else{
+
+        }
     }
     private fun initData() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)

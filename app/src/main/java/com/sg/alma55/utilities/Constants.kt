@@ -72,6 +72,7 @@ object Constants {
     const val SHARPREF_SPLASH_SCREEN_DELAY="SharprefSplashScreenDelay"
     const val SHARPREF_GRADE_ZERO="SharprefGradeZero"
     const val SHARPREF_GRADE_ARRAY="SharprefGradeArray"
+    const val SHARPREF_MOVING_BACKGROUND="SharprefMovingBackground"
 
 
     const val SHARPREF_COMMENTS_ARRAY="ShearePrefCommentsArray"
