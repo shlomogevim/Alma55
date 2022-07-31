@@ -12,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import com.google.gson.Gson
 import com.sg.alma55.R
 import com.sg.alma55.activities.PostDetailesActivity
@@ -19,11 +21,13 @@ import com.sg.alma55.modeles.Post
 import com.sg.alma55.post_drawing.DrawGeneralPost
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST
+import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
+import com.sg.alma55.utilities.Constants.TRUE
 import com.sg.alma55.utilities.UtilityPost
 
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -34,7 +38,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
     val base = BaseActivity()
     val pref = context.getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-
+    var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, TRUE)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -59,19 +63,28 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
         val image = itemView?.findViewById<ImageView>(R.id.pagerImage)
         val ken = itemView.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
 
-
-        //  val postImage = itemView?.findViewById<ImageView>(R.id.pagerImage)
-
-
-
-        fun bindImage(post: Post) {
-
+/*  fun bindImage(post: Post) {
             DrawGeneralPost().drawPost(context, post, layout)  // onClick include in here
 
+             ken.load(post.imageUri){
+               crossfade(true)
+               crossfade(1000)
+               transformations(RoundedCornersTransformation(30f))
+           }
 
-           // pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, post.postNum).apply()
 
-           // ken.clipToOutline = true
+          //  Picasso.get().load(post.imageUri).into(ken)
+            ken.resume()
+
+           /* val adi=AccelerateDecelerateInterpolator()
+            val generator= RandomTransitionGenerator(5000,adi)
+             ken.setTransitionGenerator(generator)*/
+
+
+
+            // pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, post.postNum).apply()
+
+            // ken.clipToOutline = true
 
             image.setOnClickListener {
                 val editor = pref.edit()
@@ -81,18 +94,49 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
                 editor.apply()
                 context.startActivity(Intent(context, PostDetailesActivity::class.java))
             }
+       */
 
-              //  pref.edit().putString(SHARPREF_CURRENT_POST_NUM_STRING,post.postNum.toString())
-               /* val intent = Intent(context, PostDetailesActivity::class.java)
-                intent.putExtra(POST_EXSTRA, post)
-                context.startActivity(intent)*/
 
+        fun bindImage(post: Post) {
+            DrawGeneralPost().drawPost(context, post, layout)
+
+         if (movingBackgroundMode== TRUE){
+             ken.load(post.imageUri){
+                 crossfade(true)
+                 crossfade(1000)
+                 transformations(RoundedCornersTransformation(30f))
+             }
+             ken.resume()
+         }else{
+             image.load(post.imageUri){
+                 crossfade(true)
+                 crossfade(1000)
+                 transformations(RoundedCornersTransformation(30f))
+             }
+             ken.pause()
+         }
+
+
+
+
+
+
+
+
+
+            image.setOnClickListener {
+                val editor = pref.edit()
+                val gson = Gson()
+                val json: String = gson.toJson(post)
+                editor.putString(SHARPREF_CURRENT_POST, json)
+                editor.apply()
+                context.startActivity(Intent(context, PostDetailesActivity::class.java))
             }
-
         }
 
     }
 
+}
 
 
 /*class PostAdapter(val viewPager: ViewPager2, val context: Context, val posts: ArrayList<Post>) :

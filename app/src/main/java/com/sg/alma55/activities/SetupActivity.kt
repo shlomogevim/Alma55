@@ -20,12 +20,15 @@ import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
+import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_GRADE
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
+import com.sg.alma55.utilities.Constants.TRUE
 import com.sg.alma55.utilities.FirestoreClass
+import com.sg.alma55.utilities.HelpActivity
 import java.lang.reflect.Type
 
 class SetupActivity : BaseActivity() {
@@ -145,8 +148,22 @@ class SetupActivity : BaseActivity() {
                 )
                 false
             }
-
         }
+
+        binding.btnMovingBackground.setOnClickListener {
+            val moving=pref.getString(SHARPREF_MOVING_BACKGROUND,TRUE)
+            if (moving== TRUE){
+                pref.edit().putString(SHARPREF_MOVING_BACKGROUND, FALSE).apply()
+            }else{
+                pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
+            }
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        binding.btnHelp.setOnClickListener {
+            startActivity(Intent(this, HelpActivity::class.java))
+        }
+
 
     }
 

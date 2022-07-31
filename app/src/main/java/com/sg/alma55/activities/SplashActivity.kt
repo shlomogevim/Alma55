@@ -23,6 +23,9 @@ import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
+import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
 import com.sg.alma55.utilities.Constants.SHARPREF_TOTAL_POSTS_SIZE
 import com.sg.alma55.utilities.Constants.TRUE
@@ -49,10 +52,9 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         gradeArray= arrayListOf()
         FirestoreClass().getUserDetails(this)
-        initData()
-
-        //delayInMicroSecond=1_000
-
+        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
+        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
+        delayInMicroSecond= pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY,10)*1000
 
         getHeadLines()
 
@@ -70,28 +72,15 @@ class SplashActivity : AppCompatActivity() {
         currentUser = user
 //        currentUser=null
         //     logi("SplashActivity   81      currentUser = $currentUser  "  )
-        if (currentUser==null){
-
-        }else{
-
-        }
+      //  if (currentUser==null){
+                    pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
+                    pref.edit().putString(SHARPREF_MOVING_BACKGROUND, FALSE)
+     //   }
     }
-    private fun initData() {
-        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
-//        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
-       // pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
-
-        delayInMicroSecond= pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY,10)*1000
-    }
-
-
-
 
     private fun getHeadLines() {
         setFirstHello()
         timerWorks()
-
     }
     private fun setFirstHello() {
         val name:String=getUserName()
@@ -121,16 +110,11 @@ class SplashActivity : AppCompatActivity() {
 
         timer= object :CountDownTimer(delayInMicroSecond.toLong(),1000){
 
-
-
             override fun onTick(remaning: Long) {
                 //if (remaning==(delayInMicroSecond.toLong())){
                 //    binding.lottie.playAnimation()
                 //  }
-
-
                 //  binding.lottie.pauseAnimation()
-
 
                 val totalMessage=st1+(remaning /1000).toString()+st2
                 binding.tvText2.text=totalMessage
@@ -139,17 +123,6 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private fun starteAnimateLottie() {
-        val animate1= AlphaAnimation(0.2f, 1.0f)
-        animate1.duration=2000
-
-
-        /*AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
-animation1.setDuration(1000);
-animation1.setStartOffset(5000);
-animation1.setFillAfter(true);
-iv.startAnimation(animation1);*/
-    }
 
     private fun getUserName(): String {
 
@@ -171,37 +144,7 @@ iv.startAnimation(animation1);*/
         timer.cancel()
     }
 
-    private fun setText() {
-        var name = ""
-        if (currentUser != null) {
-            name = "${currentUser!!.userName} ${currentUser!!.lastName} "
-        } else {
-            name = "אורח"
-        }
 
-        binding.tvText1.text = "ברוך הבא "
-        binding.tvText2.text = name
-    }
-
-//    private fun saveUserName() {
-//        var currentUserID = FirestoreClass().getCurrentUserID()
-////        logi("SplashActivity 98    currentUserID=$currentUserID")
-////currentUserID=""
-//
-//        if (currentUserID !="") {
-//            //  FirestoreClass().getUserDetails(this)
-//            FirebaseFirestore.getInstance().collection(USER_REF).document(currentUserID)
-//                .get()
-//                .addOnSuccessListener { document ->
-//                    val user = document.toObject(User::class.java)!!
-//                    currentUser=user
-//                    currentUseName=user.userName
-//                    pref.edit().putString(SHARPREF_CURRENT_USER_NAME,"${user.userName}").apply()
-//                }
-//        }else{
-//            pref.edit().putString(SHARPREF_CURRENT_USER_NAME,"אורח").apply()
-//        }
-//    }
 
     private fun retriveComments() {
         //  logi(" PostDetail 124")
@@ -317,8 +260,6 @@ iv.startAnimation(animation1);*/
         //
     }
 
-
-
     private fun pauseIt() {
 //        val sortSystem =  pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
         Handler().postDelayed(
@@ -326,8 +267,51 @@ iv.startAnimation(animation1);*/
                 startActivity(Intent(this, MainActivity::class.java))
             }
            }, delayInMicroSecond.toLong()
-//         }, 0
+      //   }, 0
         )
     }
+
+    private fun setText() {
+        var name = ""
+        if (currentUser != null) {
+            name = "${currentUser!!.userName} ${currentUser!!.lastName} "
+        } else {
+            name = "אורח"
+        }
+
+        binding.tvText1.text = "ברוך הבא "
+        binding.tvText2.text = name
+    }
+
+    /* private fun starteAnimateLottie() {
+         val animate1= AlphaAnimation(0.2f, 1.0f)
+         animate1.duration=2000
+
+         *//*AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
+animation1.setDuration(1000);
+animation1.setStartOffset(5000);
+animation1.setFillAfter(true);
+iv.startAnimation(animation1);*//*
+    }*/
+
+//    private fun saveUserName() {
+//        var currentUserID = FirestoreClass().getCurrentUserID()
+////        logi("SplashActivity 98    currentUserID=$currentUserID")
+////currentUserID=""
+//
+//        if (currentUserID !="") {
+//            //  FirestoreClass().getUserDetails(this)
+//            FirebaseFirestore.getInstance().collection(USER_REF).document(currentUserID)
+//                .get()
+//                .addOnSuccessListener { document ->
+//                    val user = document.toObject(User::class.java)!!
+//                    currentUser=user
+//                    currentUseName=user.userName
+//                    pref.edit().putString(SHARPREF_CURRENT_USER_NAME,"${user.userName}").apply()
+//                }
+//        }else{
+//            pref.edit().putString(SHARPREF_CURRENT_USER_NAME,"אורח").apply()
+//        }
+//    }
 }
 

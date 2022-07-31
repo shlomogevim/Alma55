@@ -39,6 +39,7 @@ class MainActivity : BaseActivity() {
     lateinit var gson: Gson
     var sortSystem = "NoValue"
     var currentPostNum = 0
+    var movingBackgroundMode=true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +54,6 @@ class MainActivity : BaseActivity() {
 
         FirestoreClass().getUserDetails(this)
         sortSystemBackground()
-
-
 
     }
 
@@ -99,7 +98,7 @@ class MainActivity : BaseActivity() {
         finishAffinity()
     }
 
-    private fun create_rvPost() {                                     //Animation 1
+    private fun create_rvPost() {
         val layoutManger = CenterZoomLayout(this)
         layoutManger.orientation = LinearLayoutManager.HORIZONTAL
         layoutManger.reverseLayout = true

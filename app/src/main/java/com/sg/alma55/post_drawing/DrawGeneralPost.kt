@@ -75,7 +75,7 @@ class DrawGeneralPost() : BaseActivity() {
         textView9.text = ""
 
         //  util.logi("DrawGeneralPost 101      \n     =========>  /n layout=$layout")
-        val imageView = layout.findViewById<ImageView>(R.id.pagerImage)
+       /* val imageView = layout.findViewById<ImageView>(R.id.pagerImage)
 
         imageView.load(post.imageUri){
             crossfade(true)
@@ -85,16 +85,16 @@ class DrawGeneralPost() : BaseActivity() {
 
         imageView.setOnClickListener {
 
-            /*   pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, post.postNum).apply()
+            *//*   pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, post.postNum).apply()
 
                val editor = pref.edit()
                val gson = Gson()
                val json: String = gson.toJson(post)
                editor.putString(SHARPREF_CURRENT_POST, json)
-               editor.apply()*/
+               editor.apply()*//*
             // startActivity(Intent(context, PostDetailesActivity::class.java))
 
-        }
+        }*/
 
 
 
