@@ -115,15 +115,6 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
              }
              ken.pause()
          }
-
-
-
-
-
-
-
-
-
             image.setOnClickListener {
                 val editor = pref.edit()
                 val gson = Gson()

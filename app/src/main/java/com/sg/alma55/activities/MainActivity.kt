@@ -17,8 +17,10 @@ import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
 import com.sg.alma55.utilities.*
+import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_COMMENTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
+import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
 import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_GRADE
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
@@ -32,14 +34,12 @@ class MainActivity : BaseActivity() {
     var posts = ArrayList<Post>()
     val comments = ArrayList<Comment>()
     private var currentUser: User? = null
-
     lateinit var rvPosts: RecyclerView
     lateinit var postAdapter: PostAdapter
     lateinit var pref: SharedPreferences
     lateinit var gson: Gson
     var sortSystem = "NoValue"
     var currentPostNum = 0
-    var movingBackgroundMode=true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,40 +48,28 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         gson = Gson()
         rvPosts = binding.rvPosts
-        pref = getSharedPreferences(Constants.SHARPREF_ALMA, Context.MODE_PRIVATE)
+        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
-        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).toString()
-
+        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
         FirestoreClass().getUserDetails(this)
-        sortSystemBackground()
-
-    }
-
-    private fun sortSystemBackground() {
-        if (sortSystem==SHARPREF_SORT_BY_RECOMMENDED){
-            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
-            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundRecommended))
-        }
-        if (sortSystem== SHARPREF_SORT_BY_TIME_PUBLISH){
-            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
-            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundTimePublish))
-        }
-        if (sortSystem== SHARPREF_SORT_BY_GRADE){
-            //  binding.mainLayout.setBackgroundColor(Color.BLUE)
-            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundGrade))
-        }
-
+        setSortSystemBackground()
 
     }
 
     override fun onResume() {
         super.onResume()
-        //  logi("MainActivity onResum 61              sortSystem$sortSystem")
+       logi("MainActivity 63   onResume        sortSystem$sortSystem")
         posts.clear()
         posts = loadPosts()
-        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).toString()
+        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
+
+//        val itZero = pref.getString(SHARPREF_GRADE_ZERO, "toto").toString()
+//        logi("SplashActivity  70     itZero=$itZero")
+
         FirestoreClass().getUserDetails(this)
+        setSortSystemBackground()
         sortPosts()
         if (currentPostNum == 0) {
             currentPostNum = posts[0].postNum
@@ -92,7 +80,17 @@ class MainActivity : BaseActivity() {
     fun getCurrentUser(user: User) {
         currentUser=user
     }
-
+    private fun setSortSystemBackground() {
+        if (sortSystem==SHARPREF_SORT_BY_RECOMMENDED){
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundRecommended))
+        }
+        if (sortSystem== SHARPREF_SORT_BY_TIME_PUBLISH){
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundTimePublish))
+        }
+        if (sortSystem== SHARPREF_SORT_BY_GRADE){
+            binding.mainLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.backgroundGrade))
+        }
+    }
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
@@ -118,7 +116,6 @@ class MainActivity : BaseActivity() {
 
     private fun sortPosts() {
         if (sortSystem == SHARPREF_SORT_BY_RECOMMENDED) {
-            //   posts.removeAll { it.postId < 2 }
             posts.sortWith(compareByDescending({ it.postId }))                 //postId show recommended factor
 
         }
@@ -126,11 +123,10 @@ class MainActivity : BaseActivity() {
             posts.sortWith(compareByDescending({ it.timestamp }))
             //  logi("MainActivity in sortPosts  111       sortSystem=$sortSystem       posts.size=${posts.size}")
         }
-
 //          persons.sortWith(compareBy({ it.name }, { it.age }))
         if (sortSystem == SHARPREF_SORT_BY_GRADE) {
             posts.removeAll({ it.grade == 0 })
-            logi("MainActivity in sortPosts  120       sortSystem=$sortSystem       posts.size=${posts.size}")
+             logi("MainActivity in sortPosts  125       sortSystem=$sortSystem       posts.size=${posts.size}")
             if (posts.size==0){
                 sortSystem == SHARPREF_SORT_BY_RECOMMENDED
                 posts.sortWith(compareByDescending({ it.postId }))
@@ -151,16 +147,6 @@ class MainActivity : BaseActivity() {
         return arr
     }
 
-    fun loadComments(): ArrayList<Comment> {
-        comments.clear()
-        val gson = Gson()
-        val json: String? = pref.getString(SHARPREF_COMMENTS_ARRAY, null)
-        val type: Type = object : TypeToken<ArrayList<Comment>>() {}.type
-        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
-        val arr: ArrayList<Comment> = gson.fromJson(json, type)
-        return arr
-    }
-
     private fun moveIt() {
         //logi("MainActivity 129   currentPostNum=$currentPostNum")
 
@@ -177,6 +163,16 @@ class MainActivity : BaseActivity() {
     }
 
 
+
+    fun loadComments(): ArrayList<Comment> {
+        comments.clear()
+        val gson = Gson()
+        val json: String? = pref.getString(SHARPREF_COMMENTS_ARRAY, null)
+        val type: Type = object : TypeToken<ArrayList<Comment>>() {}.type
+        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
+        val arr: ArrayList<Comment> = gson.fromJson(json, type)
+        return arr
+    }
 
 
 }

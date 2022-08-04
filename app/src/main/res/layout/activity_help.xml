@@ -13,6 +13,7 @@
 
     <TextView
         android:id="@+id/tv_text1"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/a103_gadi_almog_regular_aaa"
@@ -25,6 +26,8 @@
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:id="@+id/tv_text2"
+        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/a103_gadi_almog_regular_aaa"
@@ -76,36 +79,20 @@
                 app:layout_constraintTop_toBottomOf="@id/btnHelp_starting" />
 
             <Button
-                android:id="@+id/btnHelp_TimeOrder"
+                android:id="@+id/btnHelp_GradePost"
                 style="@style/ButtonFamily10"
-                android:text="סדר הופעת הפוסטים לפי זמן הפרסום"
+                android:text="דירוג פוסט אישי"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnHelp_postOrder" />
 
             <Button
-                android:id="@+id/btnHelp_GradePost"
+                android:id="@+id/btnHelp_orderOperation"
                 style="@style/ButtonFamily10"
-                android:text="דירוג פוסט"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnHelp_TimeOrder" />
-
-            <Button
-                android:id="@+id/btnHelp_GradeOrder"
-                style="@style/ButtonFamily10"
-                android:text="סדר הופעת הפוסטים לפי דירוגים"
+                android:text="סדר הופעת הפוסטים     איך עושם את זה"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnHelp_GradePost" />
-
-            <Button
-                android:id="@+id/btnHelp_RecommendedOrder"
-                style="@style/ButtonFamily10"
-                android:text="סדר הופעת הפוסטים לפי מומלצים"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnHelp_GradeOrder" />
 
             <Button
                 android:id="@+id/btnHelp_RecommendedSystem"
@@ -113,12 +100,12 @@
                 android:text="צורת עבודה יומיומית"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnHelp_RecommendedOrder" />
+                app:layout_constraintTop_toBottomOf="@id/btnHelp_orderOperation" />
 
             <Button
                 android:id="@+id/btnHelp_comments"
                 style="@style/ButtonFamily10"
-                android:text="מסך הערות של הפוסט הבודד"
+                android:text="מסך הערות של הפוסט"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnHelp_RecommendedSystem" />

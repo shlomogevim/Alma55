@@ -60,7 +60,7 @@ class SetupActivity : BaseActivity() {
     private fun chkGradeExist(){
         for (post in posts){
             if (post.grade>0){
-                pref.edit().putString(SHARPREF_GRADE_ZERO,"false").apply()
+                pref.edit().putString(SHARPREF_GRADE_ZERO, FALSE).apply()
                 break
             }
         }
@@ -76,14 +76,14 @@ class SetupActivity : BaseActivity() {
         return arr
     }
     private fun setupButtons() {
-        chkGradeExist()
+        //chkGradeExist()
         binding.btnGradePost.setOnClickListener {
             startActivity(Intent(this, GradePostActivity::class.java))
             finish()
         }
         binding.btnGradeOrder.setOnClickListener {
             val gradeIsZero=pref.getString(SHARPREF_GRADE_ZERO,"toto")
-            logi("SetupActivity 81       gradeIsZero= $gradeIsZero")
+           logi("SetupActivity 86       gradeIsZero= $gradeIsZero")
 
             if (gradeIsZero== FALSE){
                 pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_GRADE).apply()

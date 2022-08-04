@@ -156,7 +156,7 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
             startActivity(Intent(this, GetNextPost::class.java))
             finish()
         }
-        binding.settingUpBtn.setOnClickListener {
+        binding.definitionBtn.setOnClickListener {
             startActivity(Intent(this, SetupActivity::class.java))
             finish()
 

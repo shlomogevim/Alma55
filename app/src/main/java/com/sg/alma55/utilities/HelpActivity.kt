@@ -1,10 +1,8 @@
 package com.sg.alma55.utilities
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.sg.alma55.R
 import com.sg.alma55.activities.MainActivity
 import com.sg.alma55.databinding.ActivityHelpBinding
 import com.sg.alma55.modeles.User
@@ -13,19 +11,14 @@ import com.sg.alma55.utilities.Constants.HELP_EXPLANATION_INDEX
 class HelpActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHelpBinding
     var currentUser: User? = null
-    var index=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHelpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val currentUserID = FirestoreClass().getCurrentUserID()
-        if (currentUserID != null) {
-            FirestoreClass().getUserDetails(this)
-        }
+      //  FirestoreClass().getUserDetails(this)
         setupBottom()
 
-        val pref = getSharedPreferences(Constants.SHARPREF_ALMA, Context.MODE_PRIVATE)
+      //  val pref = getSharedPreferences(Constants.SHARPREF_ALMA, Context.MODE_PRIVATE)
         //  pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
         /*  binding.howToBtn.setOnClickListener {
               startActivity(Intent(this,HowToActivity::class.java))
@@ -47,27 +40,18 @@ class HelpActivity : AppCompatActivity() {
         }
         binding.btnHelpPostOrder.setOnClickListener {
             val intent= Intent(this,HelpExplanationActivity::class.java)
-            intent.putExtra(HELP_EXPLANATION_INDEX,21)
-            startActivity(intent)
-        }
-        binding.btnHelpTimeOrder.setOnClickListener {
-            val intent= Intent(this,HelpExplanationActivity::class.java)
             intent.putExtra(HELP_EXPLANATION_INDEX,3)
             startActivity(intent)
         }
+
         binding.btnHelpGradePost.setOnClickListener {
             val intent= Intent(this,HelpExplanationActivity::class.java)
             intent.putExtra(HELP_EXPLANATION_INDEX,4)
             startActivity(intent)
         }
-        binding.btnHelpGradeOrder.setOnClickListener {
+        binding.btnHelpOrderOperation.setOnClickListener {
             val intent= Intent(this,HelpExplanationActivity::class.java)
             intent.putExtra(HELP_EXPLANATION_INDEX,5)
-            startActivity(intent)
-        }
-        binding.btnHelpRecommendedOrder.setOnClickListener {
-            val intent= Intent(this,HelpExplanationActivity::class.java)
-            intent.putExtra(HELP_EXPLANATION_INDEX,51)
             startActivity(intent)
         }
         binding.btnHelpRecommendedSystem.setOnClickListener {
@@ -103,17 +87,17 @@ class HelpActivity : AppCompatActivity() {
     }
 
 
-    fun getingUserData(user: User) {
-        currentUser = user
-        // currentUser=null
-        setText()
-    }
+//    fun getingUserData(user: User) {
+//        currentUser = user
+//        // currentUser=null
+//        setText()
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java))
     }
-    private fun setText() {
+  /*  private fun setText() {
         var name = ""
         if (currentUser != null) {
             name = "${currentUser!!.userName} ${currentUser!!.lastName} "
@@ -125,8 +109,8 @@ class HelpActivity : AppCompatActivity() {
         binding.tvText2.text = "הגעת למסך ההסברים"
         val totalString=howToString1()+howToString2()+howToString3()
 //        binding.tvHowTo.text=totalString
-    }
-    private fun howToString3(): String{
+    }*/
+  /*  private fun howToString3(): String{
         val st= "בוא נניח שאתם רוצים להעיר משהו על פוסט כלשהו," +"\n"+
                 "פשוט תקליקו על התמונה" +"\n"+
                 "והנה הגעתם למסך ההערות," +"\n"+
@@ -157,8 +141,8 @@ class HelpActivity : AppCompatActivity() {
                 "  x@xx.com"+"\n"
         "------------------------------------------------"
         return st
-    }
-    private fun howToString2(): String{
+    }*/
+   /* private fun howToString2(): String{
         val st= "ו ...  הגעת למסך הראשון אחרי שמסך הפתיחה נעלם" +"\n"+
                 "גרור את התמונה מצד ימין לצד שמאל" +"\n"+
                 "והנה הגעת לתמונה הבאה," +"\n"+
@@ -173,8 +157,8 @@ class HelpActivity : AppCompatActivity() {
                 " נשמע מגניב אבל זה ממש לא מגניב" +"\n"+
                 "------------------------------------------------" +"\n"
         return st
-    }
-    private fun howToString1(): String{
+    }*/
+  /*  private fun howToString1(): String{
         val st= "השאלה בכלל אם אפשר לקרא לזה אפליקציה ?" +"\n"+
                 "לא יודע …" +"\n"+
                 "חושב שלא" +"\n"+
@@ -189,5 +173,5 @@ class HelpActivity : AppCompatActivity() {
                 " ולעבור לאחרת יותר מתגמלת." +"\n"+
                 "------------------------------------------------" +"\n"
         return st
-    }
+    }*/
 }

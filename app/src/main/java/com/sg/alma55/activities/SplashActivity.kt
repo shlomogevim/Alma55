@@ -15,7 +15,7 @@ import com.sg.alma55.databinding.ActivitySplashBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
-import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.*
 import com.sg.alma55.utilities.Constants.COMMENT_REF
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.POST_REF
@@ -25,113 +25,111 @@ import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
 import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
 import com.sg.alma55.utilities.Constants.SHARPREF_TOTAL_POSTS_SIZE
 import com.sg.alma55.utilities.Constants.TRUE
-import com.sg.alma55.utilities.FirestoreClass
-import com.sg.alma55.utilities.HelpActivity
-import com.sg.alma55.utilities.UtilityPost
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
     private lateinit var binding: ActivitySplashBinding
     var currentUser: User? = null
-    lateinit var pref : SharedPreferences
+    lateinit var pref: SharedPreferences
     var pressHelpBtn = false
-    // var currentUseName=""
-    var delayInMicroSecond=0
+    var delayInMicroSecond = 0
     lateinit var timer: CountDownTimer
     var posts = ArrayList<Post>()
     val comments = ArrayList<Comment>()
-    lateinit var gradeArray:ArrayList<Int>
-    lateinit var gradeHashMap: HashMap<Int,Int>
+    lateinit var gradeArray: ArrayList<Int>
+    lateinit var gradeHashMap: HashMap<Int, Int>
     val util = UtilityPost()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivitySplashBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        gradeArray= arrayListOf()
+
         FirestoreClass().getUserDetails(this)
-        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
-        delayInMicroSecond= pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY,10)*1000
-
+        initData()
+        activateButtoms()
         getHeadLines()
-
-        binding.btnHelp.setOnClickListener {
-            pressHelpBtn = true
-            startActivity(Intent(this, HelpActivity::class.java))
-        }
-
         downloadAllPost()
         retriveComments()
         pauseIt()
     }
 
+    private fun activateButtoms() {
+        binding.btnHelp.setOnClickListener {
+            pressHelpBtn = true
+            startActivity(Intent(this, HelpActivity::class.java))
+        }
+    }
+
+    private fun initData() {
+        gradeArray = arrayListOf()
+        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
+
+        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
+        delayInMicroSecond = pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY, 10) * 1000
+
+        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+        pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
+
+//        val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+//        logi("SplashActivity  80     sortSystem=$sortSystem")
+
+    }
+
     fun getingUserData(user: User) {
         currentUser = user
-//        currentUser=null
-        //     logi("SplashActivity   81      currentUser = $currentUser  "  )
-      //  if (currentUser==null){
-                    pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
-                    pref.edit().putString(SHARPREF_MOVING_BACKGROUND, FALSE)
-     //   }
+        getHeadLines()
     }
 
     private fun getHeadLines() {
         setFirstHello()
         timerWorks()
     }
+
     private fun setFirstHello() {
-        val name:String=getUserName()
-        val helloSt= "מה קורה " +"\n"+
-                "" +"\n"+
-                name+"\n"+
-                "" +"\n"+
-                "מה הענינים " +"\n"+
-                "" +"\n"+
-                "איך ככה " +"\n"+
+        val name: String = getUserName()
+        val helloSt = "מה קורה " + "\n" +
+                "" + "\n" +
+                name + "\n" +
+                "" + "\n" +
+                "מה הענינים " + "\n" +
+                "" + "\n" +
+                "איך ככה " + "\n" +
                 ""
-        binding.tvText1.text=helloSt
+        binding.tvText1.text = helloSt
     }
-
-    private fun timerWorks() {
-//          lottie.animate().translationY(1400f).setDuration(1000).setStartDelay(4000)
-        // starteAnimateLottie()
-        val animate1= AlphaAnimation(0f, 1.0f)
-        animate1.duration=5000
-        binding.lottie.startAnimation(animate1)
-
-
-        val st1="אל תתיאש עוד: "+"\n"+"\n"
-        val st2="   שניות   "+"\n"+"\n"+
-                "  תתחיל האפליקציה לעבוד "
-        binding.lottie.playAnimation()
-
-        timer= object :CountDownTimer(delayInMicroSecond.toLong(),1000){
-
-            override fun onTick(remaning: Long) {
-                //if (remaning==(delayInMicroSecond.toLong())){
-                //    binding.lottie.playAnimation()
-                //  }
-                //  binding.lottie.pauseAnimation()
-
-                val totalMessage=st1+(remaning /1000).toString()+st2
-                binding.tvText2.text=totalMessage
-            }
-            override fun onFinish() { }
-        }
-    }
-
-
     private fun getUserName(): String {
-
         if (currentUser != null) {
             return "${currentUser!!.userName} ${currentUser!!.lastName} "
         } else {
             return "אורח"
         }
+    }
+    private fun timerWorks() {
+//          lottie.animate().translationY(1400f).setDuration(1000).setStartDelay(4000)
+        // starteAnimateLottie()
+        val animate1 = AlphaAnimation(0f, 1.0f)
+        animate1.duration = 5000
+        binding.lottie.startAnimation(animate1)
+        val st1 = "אל תתיאש עוד: " + "\n" + "\n"
+        val st2 = "   שניות   " + "\n" + "\n" +
+                "  תתחיל האפליקציה לעבוד "
+        binding.lottie.playAnimation()
+        timer = object : CountDownTimer(delayInMicroSecond.toLong(), 1000) {
+            override fun onTick(remaning: Long) {
+                //if (remaning==(delayInMicroSecond.toLong())){
+                //    binding.lottie.playAnimation()
+                //  }
+                //  binding.lottie.pauseAnimation()
+                val totalMessage = st1 + (remaning / 1000).toString() + st2
+                binding.tvText2.text = totalMessage
+            }
 
+            override fun onFinish() {}
+        }
     }
 
     override fun onStart() {
@@ -145,9 +143,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-
     private fun retriveComments() {
-        //  logi(" PostDetail 124")
         comments.clear()
         FirebaseFirestore.getInstance().collection(COMMENT_REF)
             .addSnapshotListener { value, error ->
@@ -172,8 +168,7 @@ class SplashActivity : AppCompatActivity() {
                         val post = util.retrivePostFromFirestore(doc)
                         posts.add(post)
                     }
-
-                    pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE,posts.size).apply()
+                    pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
                     retriveGradeMapFromSharPref()
                     //  sortPosts()
                     savePosts()
@@ -181,45 +176,43 @@ class SplashActivity : AppCompatActivity() {
             }
         return posts
     }
-    private fun retriveGradeMapFromSharPref() {
-        val gson= Gson()
-        var storeMappingString=pref.getString(SHARPREF_GRADE_ARRAY,"oppsNotExist")
 
-        //  storeMappingString="oppsNotExist"    //**********
+    private fun retriveGradeMapFromSharPref() {
+        val gson = Gson()
+        var storeMappingString = pref.getString(SHARPREF_GRADE_ARRAY, "oppsNotExist")
+
+    // storeMappingString="oppsNotExist"    //**********
+
         //  logi("Splash 159      storeMappingString=$storeMappingString")
-        if (storeMappingString=="oppsNotExist"){
-            val gradeMap:HashMap<Int,Int> = hashMapOf()
-            for (index in 0 until posts.size){
-                val post=posts[index]
-                gradeMap[post.postNum]=0
-                post.grade=0
+        if (storeMappingString == "oppsNotExist") {
+            val gradeMap: HashMap<Int, Int> = hashMapOf()
+            for (index in 0 until posts.size) {
+                val post = posts[index]
+                gradeMap[post.postNum] = 0
+                post.grade = 0
             }
-            val gson= Gson()
-            val hashMapString = gson.toJson(gradeMap)
+           val hashMapString = gson.toJson(gradeMap)
             pref.edit().putString(SHARPREF_GRADE_ARRAY, hashMapString).apply()
-            pref.edit().putString(SHARPREF_GRADE_ZERO, TRUE)
-        }
-        else{
-            //  logi("MainActivity 123  exist")
+            pref.edit().putString(SHARPREF_GRADE_ZERO, TRUE).apply()
+        } else {
             val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
-            gradeHashMap=gson.fromJson(storeMappingString,type)
-            for (entery in   gradeHashMap ){
-                // logi("MainActivity 127  key=${entery.key}   value=${entery.value}")
-                val post:Post=findPost(entery.key)
-                post.grade=entery.value
+            gradeHashMap = gson.fromJson(storeMappingString, type)
+            for (entery in gradeHashMap) {
+                val post: Post = findPost(entery.key)
+                post.grade = entery.value
             }
-            val bo=chkPostsGradeIsZero()
-            if (bo){
+            val bo = chkPostsGradeIsZero()
+            if (bo) {
                 pref.edit().putString(SHARPREF_GRADE_ZERO, TRUE).apply()
-            }else{
+            } else {
                 pref.edit().putString(SHARPREF_GRADE_ZERO, FALSE).apply()
             }
         }
     }
 
     private fun chkPostsGradeIsZero(): Boolean {
-        for (item in posts){
-            if (item.grade>0){
+        for (item in posts) {
+            if (item.grade > 0) {
                 return false
             }
         }
@@ -227,61 +220,74 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun findPost(key: Int): Post {
-        val post=Post()
-        for (post in posts){
-            if (post.postNum==key){
+       //val post = Post()
+        for (post in posts) {
+            if (post.postNum == key) {
                 return post
             }
         }
-        return post
+    return Post()
     }
+
     fun savePosts() {
-        pref.edit().putString(SHARPREF_GRADE_ZERO,"true").apply()
-        for (post in posts){
-            if (post.grade>0){
-                pref.edit().putString(SHARPREF_GRADE_ZERO,"false").apply()
+        pref.edit().putString(SHARPREF_GRADE_ZERO, "true").apply()
+        for (post in posts) {
+            if (post.grade > 0) {
+                pref.edit().putString(SHARPREF_GRADE_ZERO, "false").apply()
                 break
             }
         }
-        val editor=pref.edit()
-        val gson= Gson()
-        val json:String=gson.toJson(posts)
-        editor.putString(Constants.SHARPREF_POSTS_ARRAY,json)
+        val editor = pref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(posts)
+        editor.putString(Constants.SHARPREF_POSTS_ARRAY, json)
         editor.apply()
-        //
     }
 
     fun saveComments() {
-        val editor=pref.edit()
-        val gson= Gson()
-        val json:String=gson.toJson(comments)
-        editor.putString(Constants.SHARPREF_COMMENTS_ARRAY,json)
+        val editor = pref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(comments)
+        editor.putString(Constants.SHARPREF_COMMENTS_ARRAY, json)
         editor.apply()
-        //
     }
 
     private fun pauseIt() {
-//        val sortSystem =  pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+     /*   val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+        logi("SplashActivity 251      sortSystem=$sortSystem")*/
         Handler().postDelayed(
             {  if (!pressHelpBtn) {
-                startActivity(Intent(this, MainActivity::class.java))
-            }
-           }, delayInMicroSecond.toLong()
-      //   }, 0
+                    startActivity(Intent(this, MainActivity::class.java))
+//                    startActivity(Intent(this, HelpActivity::class.java))
+                }
+//           }, delayInMicroSecond.toLong()
+            }, 0
         )
     }
 
-    private fun setText() {
+
+
+
+
+
+
+
+
+
+
+
+
+   /* private fun setText() {
         var name = ""
-        if (currentUser != null) {
-            name = "${currentUser!!.userName} ${currentUser!!.lastName} "
+        name = if (currentUser != null) {
+            "${currentUser!!.userName} ${currentUser!!.lastName} "
         } else {
-            name = "אורח"
+            "אורח"
         }
 
         binding.tvText1.text = "ברוך הבא "
         binding.tvText2.text = name
-    }
+    }*/
 
     /* private fun starteAnimateLottie() {
          val animate1= AlphaAnimation(0.2f, 1.0f)
