@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -25,23 +26,23 @@ import com.sg.alma55.interfaces.CommentsOptionClickListener
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
-import com.sg.alma55.utilities.BaseActivity
+import com.sg.alma55.utilities.*
 import com.sg.alma55.utilities.Constants.COMMEND_TIME_STAMP
 import com.sg.alma55.utilities.Constants.COMMENT_ID
 import com.sg.alma55.utilities.Constants.COMMENT_POST_NUM_STRING
 import com.sg.alma55.utilities.Constants.COMMENT_REF
 import com.sg.alma55.utilities.Constants.COMMENT_TEXT
+import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_COMMENTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
-import com.sg.alma55.utilities.FirestoreClass
-import com.sg.alma55.utilities.NewUtilities
-import com.sg.alma55.utilities.UtilityPost
+import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
+import com.sg.alma55.utilities.Constants.TRUE
 import java.lang.reflect.Type
 
-class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
-     private lateinit var binding: ActivityPostDetailesBinding
+class PostDetailesActivity : BaseActivity(), CommentsOptionClickListener {
+    private lateinit var binding: ActivityPostDetailesBinding
     var util = UtilityPost()
     var currentUser: User? = null
     var textViewArray = ArrayList<TextView>()
@@ -54,7 +55,7 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
     lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding= ActivityPostDetailesBinding.inflate(layoutInflater)
+        binding = ActivityPostDetailesBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -67,19 +68,26 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
         // currentPostNumString=currentPost.postNum.toString()
 
         pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, currentPost.postNum).apply()
+
+        val moving = pref.getString(SHARPREF_MOVING_BACKGROUND, TRUE)
+        binding.movingModeBtn.isChecked = moving == TRUE
+       // logi("PostDetailActivity 75      binding.movingModeBtn.isChecked=${binding.movingModeBtn.isChecked}     ")
         drawHeadline()
         create_commentsRv()
         btnSetting()
         retriveComments()
 
         binding.postCommentText.addTextChangedListener(textWatcher)
+
+
+        //  binding.movingModeBtn.isChecked=true
     }
 
     fun getUserNameSetting(user: User) {
-        currentUser=user
-        if (currentUser==null){
+        currentUser = user
+        if (currentUser == null) {
             binding.nameCurrentUserName.setText("אורח")
-        }else {
+        } else {
             binding.nameCurrentUserName.setText(currentUser!!.userName)
         }
     }
@@ -93,7 +101,7 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
                     comments.clear()
                     for (doc in value.documents) {
                         val comment = util.retriveCommentFromFirestore(doc)
-                        if (comment.postNumString==currentPost.postNum.toString()){
+                        if (comment.postNumString == currentPost.postNum.toString()) {
                             comments.add(comment)
                         }
                     }
@@ -101,10 +109,11 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
                 }
             }
     }
+
     private fun sendComment() {
         hideKeyboard()
         val commentText = binding.postCommentText.text.toString().trim { it <= ' ' }
-        newUtil1.saveCommentInFirestore(commentText,currentPost.postNum.toString())
+        newUtil1.saveCommentInFirestore(commentText, currentPost.postNum.toString())
         binding.postCommentText.text.clear()
     }
 
@@ -161,7 +170,25 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
             finish()
 
         }
+        binding.helpBtn.setOnClickListener {
+            startActivity(Intent(this, HelpActivity::class.java))
+            finish()
+
+        }
+
+        val btn = binding.movingModeBtn
+        btn.setOnClickListener {
+//           logi("PostDetailActivity 182    befor  btn.isChecked=${btn.isChecked}     ")
+            if (btn.isChecked == true) {
+                pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
+//                logi("PostDetailActivity 185    after  btn.isChecked=${btn.isChecked}     ")
+            } else {
+                pref.edit().putString(SHARPREF_MOVING_BACKGROUND, FALSE).apply()
+//                logi("PostDetailActivity 189    after  btn.isChecked=${btn.isChecked}     ")
+            }
+        }
     }
+
     private fun press_on_comment_icon() {
         if (currentUser == null) {
             hideKeyboard()
@@ -181,12 +208,13 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
             }
         }
     }
+
     private fun create_commentsRv() {
         commentsRV = binding.rvPost
         val layoutManger = LinearLayoutManager(this)
         layoutManger.reverseLayout = true
         commentsRV.layoutManager = layoutManger
-        commentAdapter = CommentAdapter(this,comments, this)
+        commentAdapter = CommentAdapter(this, comments, this)
         commentsRV.adapter = commentAdapter
         commentAdapter.notifyDataSetChanged()
     }
@@ -222,23 +250,26 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
     }
 
     private fun drawHeadline() {
-        val st = "  פוסט מספר: " + currentPost.postNum.toString()
+//        val st = "  פוסט מספר: " + currentPost.postNum.toString()
+        val st = " מספר: " + currentPost.postNum.toString()
         binding.postNumber.text = st
         // logi("PostDetailsActivity  233  post=$currentPost    \n post.postText.size= ${currentPost.postText.size}")
         drawPostText()
     }
+
     private fun sortComment(comments1: ArrayList<Comment>): ArrayList<Comment> {
-        var arr=ArrayList<Comment>()
+        var arr = ArrayList<Comment>()
         comments.clear()
-        for (index  in 0 until comments1.size){
+        for (index in 0 until comments1.size) {
             /* logi("PostDetailActivity  76      index=$index    comments1[index].postNumString===>> ${comments1[index].postNumString}     currentPostNumString=$currentPostNumString        /n " +
                      " ${comments1[index].postNumString==currentPostNumString}")*/
-            if (comments1[index].postNumString==currentPost.postNum.toString()){
+            if (comments1[index].postNumString == currentPost.postNum.toString()) {
                 arr.add(comments1[index])
             }
         }
         return arr
     }
+
     private fun createComments() {
         /*   comments1.clear()
            comments.clear()
@@ -276,15 +307,15 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
 //           logi("PostDetailActivity 105 coments1   index=$index         ===> comment1  = ${comments1[index].postNumString}   \n")
 //        }
     }
+
     private fun show_comments() {
-        for (index in 0 until comments.size){
+        for (index in 0 until comments.size) {
             logi("PostDetailActivity 110 coment  index=$index         ===> comment  = ${comments[index].postNumString}   \n")
         }
     }
 
 
-
-    fun loadComments( ): ArrayList<Comment> {
+    fun loadComments(): ArrayList<Comment> {
         comments.clear()
         val gson = Gson()
         val json: String? = pref.getString(SHARPREF_COMMENTS_ARRAY, null)
@@ -294,12 +325,11 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
     }
 
 
-
     fun saveComments() {
-        val editor=pref.edit()
-        val gson= Gson()
-        val json:String=gson.toJson(comments)
-        editor.putString(SHARPREF_COMMENTS_ARRAY,json)
+        val editor = pref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(comments)
+        editor.putString(SHARPREF_COMMENTS_ARRAY, json)
         editor.apply()
         //
     }
@@ -308,7 +338,7 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
     private fun sortComments(): MutableList<Comment> {
 
         // var arr=ArrayList<Comment>()
-        var arr=comments.toMutableList()
+        var arr = comments.toMutableList()
         //  arr.filter {  it.postNumString==currentPost.postId }
         //   arr.sortWith(compareByDescending ({ it.timestamp}))
         return arr
@@ -319,9 +349,6 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
             posts.sortWith(compareByDescending({ it.grade }))
           // logi("MainActivity in sortPosts  107       sortSystem=$sortSystem       posts.size=${posts.size}")
         }*/
-
-
-
 
 
     /* private fun sendComment() {
@@ -359,7 +386,6 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
                 }
             }
     }*/
-
 
 
     private fun createTextViewArray() {
@@ -490,7 +516,7 @@ class PostDetailesActivity : BaseActivity() , CommentsOptionClickListener{
         }
     }
 
-
+    fun movingBackgrountModeOnClick(view: View) {}
 
 
 }

@@ -181,7 +181,7 @@ class SplashActivity : BaseActivity() {
         val gson = Gson()
         var storeMappingString = pref.getString(SHARPREF_GRADE_ARRAY, "oppsNotExist")
 
-    // storeMappingString="oppsNotExist"    //**********
+            // storeMappingString="oppsNotExist"    //**********
 
         //  logi("Splash 159      storeMappingString=$storeMappingString")
         if (storeMappingString == "oppsNotExist") {

@@ -60,6 +60,36 @@
             android:text="הכנס"
             android:textSize="16sp" />
     </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttomLayout"
+        android:layout_toLeftOf="@id/postNumber"
+        android:layout_alignLeft="@id/buttomLayout"
+        android:id="@+id/helpBtn"
+        style="@style/AppTheme.Button1"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+       android:fontFamily="@font/a103_gadi_almog_regular_aaa"
+        android:text="עזרה"
+        android:textAllCaps="false"
+        android:textSize="16sp"  />
+
+    <ToggleButton
+        android:id="@+id/movingModeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_below="@id/buttomLayout"
+        android:layout_alignRight="@id/buttomLayout"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toEndOf="@+id/postNumber"
+        android:background="@drawable/category_toggle_moving"
+        android:fontFamily="@font/a103_gadi_almog_regular_aaa"
+        android:textColor="@color/white"
+        android:textOff="סטטי"
+        android:textOn="דינמי"
+        android:textSize="16sp" />
 
 
     <TextView
@@ -223,7 +253,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/addCommentLayout"
         android:layout_below="@id/textPost"
-        android:layout_margin="2dp" />
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp" />
 
 
     <RelativeLayout

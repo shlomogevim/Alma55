@@ -51,7 +51,7 @@ class MainActivity : BaseActivity() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
-logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
+//logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
         FirestoreClass().getUserDetails(this)
         setSortSystemBackground()
 
@@ -59,7 +59,7 @@ logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
 
     override fun onResume() {
         super.onResume()
-       logi("MainActivity 63   onResume        sortSystem$sortSystem")
+//       logi("MainActivity 63   onResume        sortSystem$sortSystem")
         posts.clear()
         posts = loadPosts()
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
