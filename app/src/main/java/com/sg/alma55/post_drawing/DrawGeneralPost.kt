@@ -52,6 +52,10 @@ class DrawGeneralPost() : BaseActivity() {
 
     fun drawPost(context: Context, post: Post, layout: ConstraintLayout) {
 
+       /* if (post.postNum==1000){
+            logi("DrawGeneral 56   newPost1=${post}")
+        }*/
+
         // util.logi("DrawGeneralPost 100      \n     =========>  /n post=$post")
         val textView1 = layout.findViewById<TextView>(R.id.tv1)
         val textView2 = layout.findViewById<TextView>(R.id.tv2)
@@ -62,7 +66,8 @@ class DrawGeneralPost() : BaseActivity() {
         val textView7 = layout.findViewById<TextView>(R.id.tv7)
         val textView8 = layout.findViewById<TextView>(R.id.tv8)
         val textView9 = layout.findViewById<TextView>(R.id.tv9)
-        var textView = layout.findViewById<TextView>(R.id.tv9)
+        val textView10 = layout.findViewById<TextView>(R.id.tv10)
+        var textView = layout.findViewById<TextView>(R.id.tv10)
 
         textView1.text = ""
         textView2.text = ""
@@ -73,6 +78,7 @@ class DrawGeneralPost() : BaseActivity() {
         textView7.text = ""
         textView8.text = ""
         textView9.text = ""
+        textView10.text = ""
 
         //  util.logi("DrawGeneralPost 101      \n     =========>  /n layout=$layout")
        /* val imageView = layout.findViewById<ImageView>(R.id.pagerImage)
@@ -96,9 +102,6 @@ class DrawGeneralPost() : BaseActivity() {
 
         }*/
 
-
-
-
         constraintSet.clone(layout)
 
         for (index in 1..post.lineNum) {
@@ -112,22 +115,33 @@ class DrawGeneralPost() : BaseActivity() {
                 7 -> textView7
                 8 -> textView8
                 9 -> textView9
+                10 -> textView10
                 else -> textView1
             }
 
-            createTextView(index, textView, post, context, layout)
-            locateTextView(index, textView, post)
+          createTextView(index, textView, post, context, layout)
+          //  showPost(post)
+   //   locateTextView(index, textView, post)
 
         }
 
         constraintSet.applyTo(layout)
 
     }
+    private fun showPost(post:Post) {
+        if (post.postNum==1000){
+//             if (post.postNum==901){
+//             if (post.postNum==4940){
+            logi("DrawGeneral 135   post.postMargin=${post.postMargin.joinToString()}")
+        }
+    }
 
     private fun createTextView(
         index: Int, textView: TextView, post: Post, context: Context, layout: ConstraintLayout
     ) {
-        // util.logi("Draw GeneralPost99  ${post.postTextColor.joinToString()}")
+
+    /*    logi("DrawGeneral 131     post.postNum= ${post.postNum}     \n" +
+                "post.postMargin=${post.postMargin.joinToString()}")*/
 
         for (index in 1..post.postTextColor.size - 1) {
             var col = post.postTextColor[index]
@@ -137,14 +151,12 @@ class DrawGeneralPost() : BaseActivity() {
             col = "#$col"
             post.postTextColor[index] = col
 
-            //  util.logi("Draw GeneralPost 152  ${post.postTextColor.joinToString()}")
         }
         val ind = index - 1
         //  logi("Draw General 117     postNum=${post.postNum}  lineSpacing= ${post.lineSpacing}")
         textView.setLineSpacing(1f, post.lineSpacing!!.toFloat())
 
         textView.text = post.postText[ind]
-//  util.logi("Draw GeneralPost 149   ${post.postTextColor.joinToString()}")
         if (post.postTextColor[0] == CONSTANT) {
             textView.setTextColor(Color.parseColor(post.postTextColor[1]))
         } else {
@@ -182,6 +194,7 @@ class DrawGeneralPost() : BaseActivity() {
             post.postPadding[3].toPx()
         )
         textView.gravity = Gravity.CENTER
+
     }
 
     private fun locateTextView(
@@ -192,7 +205,8 @@ class DrawGeneralPost() : BaseActivity() {
         constraintSet.clear(textView.id, ConstraintSet.TOP)
         constraintSet.clear(textView.id, ConstraintSet.BOTTOM)
         val ind = index - 1
-
+    //    logi("DrawGeneralPost 195  postMargin=${post.postMargin.joinToString()}")
+     //   logi("DrawGeneralPost 196  index=$index   ind=$ind   post=$post")
         if (post.postMargin[ind][3] == -1) {
             constraintSet.connect(
                 textView.id,
@@ -211,20 +225,4 @@ class DrawGeneralPost() : BaseActivity() {
         }
     }
 
-    /*fun drawPostFire(context: Context, post: Post, layout: ConstraintLayout) {
-        //util.logi("DrawGeneralPost 100      \n     =========>  /n post=$post")
-        val textView1 = layout.findViewById<TextView>(R.id.tv1Fire)
-        val textView2 = layout.findViewById<TextView>(R.id.tv2Fire)
-        val textView3 = layout.findViewById<TextView>(R.id.tv3Fire)
-        val textView4 = layout.findViewById<TextView>(R.id.tv4Fire)
-        val textView5 = layout.findViewById<TextView>(R.id.tv5Fire)
-        val textView6 = layout.findViewById<TextView>(R.id.tv6Fire)
-        val textView7 = layout.findViewById<TextView>(R.id.tv7Fire)
-        val textView8 = layout.findViewById<TextView>(R.id.tv8Fire)
-        val textView9 = layout.findViewById<TextView>(R.id.tv9Fire)
-        var textView = layout.findViewById<TextView>(R.id.tv9Fire)
-        val imageView = layout.findViewById<ImageView>(R.id.pagerImageFire)
-        textView1.text = ""
-
-    }*/
 }

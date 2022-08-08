@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sg.alma55.R
@@ -51,6 +52,7 @@ class MainActivity : BaseActivity() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+       // downloadAllPost()
 //logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
         FirestoreClass().getUserDetails(this)
         setSortSystemBackground()
@@ -61,7 +63,9 @@ class MainActivity : BaseActivity() {
         super.onResume()
 //       logi("MainActivity 63   onResume        sortSystem$sortSystem")
         posts.clear()
-        posts = loadPosts()
+      //  downloadAllPost()
+       posts = loadPosts()
+
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
 
@@ -137,7 +141,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun loadPosts(): ArrayList<Post> {
+    private fun loadPosts(): ArrayList<Post> {
         posts.clear()
         val gson = Gson()
         val json: String? = pref.getString(SHARPREF_POSTS_ARRAY, null)
@@ -145,6 +149,29 @@ class MainActivity : BaseActivity() {
         // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
         val arr: ArrayList<Post> = gson.fromJson(json, type)
         return arr
+    }
+   /* fun downloadAllPost(): ArrayList<Post> {
+        posts.clear()
+        FirebaseFirestore.getInstance().collection(Constants.POST_REF)
+            // .orderBy(Constants.POST_TIME_STAMP, Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                if (value != null) {
+                    for (doc in value.documents) {
+                        val post = util.retrivePostFromFirestore(doc)
+                        posts.add(post)
+                        showPost(post)
+                    }
+
+                }
+            }
+        return posts
+    }*/
+    private fun showPost(post:Post) {
+        if (post.postNum==1000){
+//             if (post.postNum==901){
+//             if (post.postNum==4940){
+            logi("MainActivity  171    post.postMargin=${post.postMargin.joinToString()}")
+        }
     }
 
     private fun moveIt() {

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.util.Log
 import android.view.animation.AlphaAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -24,12 +25,14 @@ import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
 import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
+import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
 import com.sg.alma55.utilities.Constants.SHARPREF_TOTAL_POSTS_SIZE
 import com.sg.alma55.utilities.Constants.TRUE
+import java.lang.reflect.Type
 
 class SplashActivity : BaseActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -47,14 +50,152 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         FirestoreClass().getUserDetails(this)
         initData()
         activateButtoms()
         getHeadLines()
-        downloadAllPost()
         retriveComments()
-        pauseIt()
+        downloadAllPost()
+
+//       logi("aaaaaa")
+//        val posts10= downloadAllPost()
+//        Handler().postDelayed({
+//            logi("bbbbbbbbbbbbbb")
+//            showPosts(30)
+//        }, 1000)
+
+ //posts=downloadAllPost()
+
+   /*   val posts10= downloadAllPost()
+        showPosts10(posts10)*/
+//       posts= loadPosts()
+//        showPosts(2)
+
+        // chkProblemInPosts()
+
+
+       pauseIt()
+    }
+
+    private fun showPosts10(posts10: java.util.ArrayList<Post>) {
+
+        for (post in posts10){
+            showPost(300,post)
+        }
+    }
+
+
+    fun downloadAllPost(): ArrayList<Post> {
+      //  posts.clear()
+    //    var post1=Post()
+    //    showPosts(0)
+
+        FirebaseFirestore.getInstance().collection(POST_REF)
+            // .orderBy(Constants.POST_TIME_STAMP, Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                if (value != null) {
+                    for (doc in value.documents) {
+                         val post = util.retrivePostFromFirestore(doc)
+
+//                        if (post.postNum > 100 && post.postNum < 102) {
+                    //    if (post.postNum==1000) {
+                            posts.add(post)
+                            // showPost(10,post)
+                      //  }
+                    //  showPosts(20)
+                    }
+                 // showPost(11,post1)
+                 // showPosts(2)
+                  pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
+                retriveGradeMapFromSharPref()
+                    //  sortPosts()
+                  savePosts()
+//                    logi("-------------------------------------------")
+//                    logi("SplashActivity->showPost  save-> 100    \n posts==>${posts.joinToString()}")
+
+                }
+            }
+
+        showPosts(1)
+        return posts
+    }
+
+    private fun showPosts(ind: Int) {
+        for (post in posts) {
+            showPost(ind, post)
+        }
+        logi("---------------------------")
+    }
+
+    private fun showPost(ind: Int, post: Post) {
+        //  if (post.postNum==1000){
+//             if (post.postNum==901){
+//             if (post.postNum==4940){
+     //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} \n posts==>${posts.joinToString()}")
+        logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} ")
+        logi("------------------------------")
+        //     }
+    }
+
+    private fun chkProblemInPosts() {
+        posts = loadPosts()
+        logi("****************")
+        logi("\n\nSplashActivity  reload-> 118   posts==>${posts.joinToString()}")
+
+
+    }
+
+    private fun showPost1(post: Post) {
+        // if (post.postNum==1000){
+//             if (post.postNum==901){
+//             if (post.postNum==4940){
+        logi("SplashActivity-->showPost1 123 (after reloading)    num=${post.postNum}  post.postMargin=${post.postMargin.joinToString()}")
+        // }
+    }
+    /* private fun chkCondition():Boolean{
+
+     }*/
+
+    fun savePosts() {
+        pref.edit().putString(SHARPREF_GRADE_ZERO, "true").apply()
+        for (post in posts) {
+            if (post.grade > 0) {
+                pref.edit().putString(SHARPREF_GRADE_ZERO, "false").apply()
+                break
+            }
+        }
+        pref.edit().remove(SHARPREF_POSTS_ARRAY).commit()
+        val editor = pref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(posts)
+        editor.putString(SHARPREF_POSTS_ARRAY, json)
+        editor.apply()
+    }
+
+    private fun loadPosts(): ArrayList<Post> {
+        posts.clear()
+        val gson = Gson()
+        val json: String? = pref.getString(SHARPREF_POSTS_ARRAY, null)
+        val type: Type = object : TypeToken<ArrayList<Post>>() {}.type
+        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
+        val arr: ArrayList<Post> = gson.fromJson(json, type)
+        return arr
+    }
+
+
+    private fun initData() {
+        gradeArray = arrayListOf()
+        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
+        pref.edit().remove(SHARPREF_ALMA).apply()
+        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
+        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+        pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
+        delayInMicroSecond = pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY, 10) * 1000
+    }
+
+    fun getingUserData(user: User) {
+        currentUser = user
+        getHeadLines()
     }
 
     private fun activateButtoms() {
@@ -62,26 +203,6 @@ class SplashActivity : BaseActivity() {
             pressHelpBtn = true
             startActivity(Intent(this, HelpActivity::class.java))
         }
-    }
-
-    private fun initData() {
-        gradeArray = arrayListOf()
-        pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-
-        pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
-        delayInMicroSecond = pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY, 10) * 1000
-
-        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
-        pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
-
-//        val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
-//        logi("SplashActivity  80     sortSystem=$sortSystem")
-
-    }
-
-    fun getingUserData(user: User) {
-        currentUser = user
-        getHeadLines()
     }
 
     private fun getHeadLines() {
@@ -101,6 +222,7 @@ class SplashActivity : BaseActivity() {
                 ""
         binding.tvText1.text = helloSt
     }
+
     private fun getUserName(): String {
         if (currentUser != null) {
             return "${currentUser!!.userName} ${currentUser!!.lastName} "
@@ -108,6 +230,7 @@ class SplashActivity : BaseActivity() {
             return "אורח"
         }
     }
+
     private fun timerWorks() {
 //          lottie.animate().translationY(1400f).setDuration(1000).setStartDelay(4000)
         // starteAnimateLottie()
@@ -142,7 +265,6 @@ class SplashActivity : BaseActivity() {
         timer.cancel()
     }
 
-
     private fun retriveComments() {
         comments.clear()
         FirebaseFirestore.getInstance().collection(COMMENT_REF)
@@ -158,30 +280,12 @@ class SplashActivity : BaseActivity() {
             }
     }
 
-    fun downloadAllPost(): ArrayList<Post> {
-        posts.clear()
-        FirebaseFirestore.getInstance().collection(POST_REF)
-            // .orderBy(Constants.POST_TIME_STAMP, Query.Direction.DESCENDING)
-            .addSnapshotListener { value, error ->
-                if (value != null) {
-                    for (doc in value.documents) {
-                        val post = util.retrivePostFromFirestore(doc)
-                        posts.add(post)
-                    }
-                    pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
-                    retriveGradeMapFromSharPref()
-                    //  sortPosts()
-                    savePosts()
-                }
-            }
-        return posts
-    }
 
     private fun retriveGradeMapFromSharPref() {
         val gson = Gson()
         var storeMappingString = pref.getString(SHARPREF_GRADE_ARRAY, "oppsNotExist")
 
-            // storeMappingString="oppsNotExist"    //**********
+        // storeMappingString="oppsNotExist"    //**********
 
         //  logi("Splash 159      storeMappingString=$storeMappingString")
         if (storeMappingString == "oppsNotExist") {
@@ -191,7 +295,7 @@ class SplashActivity : BaseActivity() {
                 gradeMap[post.postNum] = 0
                 post.grade = 0
             }
-           val hashMapString = gson.toJson(gradeMap)
+            val hashMapString = gson.toJson(gradeMap)
             pref.edit().putString(SHARPREF_GRADE_ARRAY, hashMapString).apply()
             pref.edit().putString(SHARPREF_GRADE_ZERO, TRUE).apply()
         } else {
@@ -220,29 +324,15 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun findPost(key: Int): Post {
-       //val post = Post()
+        //val post = Post()
         for (post in posts) {
             if (post.postNum == key) {
                 return post
             }
         }
-    return Post()
+        return Post()
     }
 
-    fun savePosts() {
-        pref.edit().putString(SHARPREF_GRADE_ZERO, "true").apply()
-        for (post in posts) {
-            if (post.grade > 0) {
-                pref.edit().putString(SHARPREF_GRADE_ZERO, "false").apply()
-                break
-            }
-        }
-        val editor = pref.edit()
-        val gson = Gson()
-        val json: String = gson.toJson(posts)
-        editor.putString(Constants.SHARPREF_POSTS_ARRAY, json)
-        editor.apply()
-    }
 
     fun saveComments() {
         val editor = pref.edit()
@@ -253,41 +343,32 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun pauseIt() {
-     /*   val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
-        logi("SplashActivity 251      sortSystem=$sortSystem")*/
+        /*   val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+           logi("SplashActivity 251      sortSystem=$sortSystem")*/
         Handler().postDelayed(
-            {  if (!pressHelpBtn) {
+            {
+                if (!pressHelpBtn) {
+                    //chkProblemInPosts()
                     startActivity(Intent(this, MainActivity::class.java))
-//                    startActivity(Intent(this, HelpActivity::class.java))
+//                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()
-            }, 0
+            }, 100
         )
     }
 
 
+    /* private fun setText() {
+         var name = ""
+         name = if (currentUser != null) {
+             "${currentUser!!.userName} ${currentUser!!.lastName} "
+         } else {
+             "אורח"
+         }
 
-
-
-
-
-
-
-
-
-
-
-   /* private fun setText() {
-        var name = ""
-        name = if (currentUser != null) {
-            "${currentUser!!.userName} ${currentUser!!.lastName} "
-        } else {
-            "אורח"
-        }
-
-        binding.tvText1.text = "ברוך הבא "
-        binding.tvText2.text = name
-    }*/
+         binding.tvText1.text = "ברוך הבא "
+         binding.tvText2.text = name
+     }*/
 
     /* private fun starteAnimateLottie() {
          val animate1= AlphaAnimation(0.2f, 1.0f)

@@ -98,7 +98,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
 
         fun bindImage(post: Post) {
-            DrawGeneralPost().drawPost(context, post, layout)
+           DrawGeneralPost().drawPost(context, post, layout)
 
          if (movingBackgroundMode== TRUE){
              ken.load(post.imageUri){
