@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
+
 data class Post(
     var postId:Int=0,
     var postNum:Int=1,
@@ -22,6 +22,7 @@ data class Post(
     var timestamp: Timestamp?=null,
     var lineSpacing: Double? =1.4,
     var grade:Int=0
+)
 
 
-): Parcelable
+

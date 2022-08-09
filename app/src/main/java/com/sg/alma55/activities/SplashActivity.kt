@@ -98,10 +98,10 @@ class SplashActivity : BaseActivity() {
                          val post = util.retrivePostFromFirestore(doc)
 
 //                        if (post.postNum > 100 && post.postNum < 102) {
-                    //    if (post.postNum==1000) {
+//                      if (post.postNum==1000) {
                             posts.add(post)
-                            // showPost(10,post)
-                      //  }
+//                                   showPost(10,post)
+//                     }
                     //  showPosts(20)
                     }
                  // showPost(11,post1)

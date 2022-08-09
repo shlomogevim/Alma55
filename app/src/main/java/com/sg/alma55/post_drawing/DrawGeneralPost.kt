@@ -103,7 +103,6 @@ class DrawGeneralPost() : BaseActivity() {
         }*/
 
         constraintSet.clone(layout)
-
         for (index in 1..post.lineNum) {
             textView = when (index) {
                 1 -> textView1
@@ -119,9 +118,9 @@ class DrawGeneralPost() : BaseActivity() {
                 else -> textView1
             }
 
-          createTextView(index, textView, post, context, layout)
-          //  showPost(post)
-   //   locateTextView(index, textView, post)
+            createTextView(index, textView, post, context, layout)
+            //  showPost(post)
+             locateTextView(index, textView, post)
 
         }
 
