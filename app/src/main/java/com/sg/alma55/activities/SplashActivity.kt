@@ -64,55 +64,49 @@ class SplashActivity : BaseActivity() {
 //            showPosts(30)
 //        }, 1000)
 
- //posts=downloadAllPost()
+        //posts=downloadAllPost()
 
-   /*   val posts10= downloadAllPost()
-        showPosts10(posts10)*/
+        /*   val posts10= downloadAllPost()
+             showPosts10(posts10)*/
 //       posts= loadPosts()
 //        showPosts(2)
 
         // chkProblemInPosts()
 
 
-       pauseIt()
+        pauseIt()
     }
 
     private fun showPosts10(posts10: java.util.ArrayList<Post>) {
 
-        for (post in posts10){
-            showPost(300,post)
+        for (post in posts10) {
+            showPost(300, post)
         }
     }
 
 
     fun downloadAllPost(): ArrayList<Post> {
-      //  posts.clear()
-    //    var post1=Post()
-    //    showPosts(0)
-
+        //  posts.clear()
+        //    var post1=Post()
+        //    showPosts(0)
         FirebaseFirestore.getInstance().collection(POST_REF)
             // .orderBy(Constants.POST_TIME_STAMP, Query.Direction.DESCENDING)
             .addSnapshotListener { value, error ->
                 if (value != null) {
                     for (doc in value.documents) {
-                         val post = util.retrivePostFromFirestore(doc)
+                        val post = util.retrivePostFromFirestore(doc)
 
-//                        if (post.postNum > 100 && post.postNum < 102) {
-//                      if (post.postNum==1000) {
+                        if (post.postNum in 805..1000) {
+//                        if (post.postNum in 805..1000) {
+                   //  if (posts.size in 0..10) {
                             posts.add(post)
-//                                   showPost(10,post)
-//                     }
-                    //  showPosts(20)
-                    }
-                 // showPost(11,post1)
-                 // showPosts(2)
-                  pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
-                retriveGradeMapFromSharPref()
-                    //  sortPosts()
-                  savePosts()
-//                    logi("-------------------------------------------")
-//                    logi("SplashActivity->showPost  save-> 100    \n posts==>${posts.joinToString()}")
 
+                      }
+                    }
+
+                    pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
+                    retriveGradeMapFromSharPref()
+                    savePosts()
                 }
             }
 
@@ -124,14 +118,13 @@ class SplashActivity : BaseActivity() {
         for (post in posts) {
             showPost(ind, post)
         }
-        logi("---------------------------")
     }
 
     private fun showPost(ind: Int, post: Post) {
         //  if (post.postNum==1000){
 //             if (post.postNum==901){
 //             if (post.postNum==4940){
-     //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} \n posts==>${posts.joinToString()}")
+        //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} \n posts==>${posts.joinToString()}")
         logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} ")
         logi("------------------------------")
         //     }
@@ -353,7 +346,7 @@ class SplashActivity : BaseActivity() {
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()
-            }, 100
+            }, 0
         )
     }
 

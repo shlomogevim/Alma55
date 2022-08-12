@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.google.gson.Gson
+import com.sg.alma50a.post_drawing.DrawPostCenter
 import com.sg.alma55.R
 import com.sg.alma55.activities.PostDetailesActivity
 import com.sg.alma55.modeles.Post
@@ -98,23 +99,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
 
         fun bindImage(post: Post) {
-           DrawGeneralPost().drawPost(context, post, layout)
-
-         if (movingBackgroundMode== TRUE){
-             ken.load(post.imageUri){
-                 crossfade(true)
-                 crossfade(1000)
-                 transformations(RoundedCornersTransformation(30f))
-             }
-             ken.resume()
-         }else{
-             image.load(post.imageUri){
-                 crossfade(true)
-                 crossfade(1000)
-                 transformations(RoundedCornersTransformation(30f))
-             }
-             ken.pause()
-         }
+          DrawGeneralPost().drawPost(context, post, layout)
             image.setOnClickListener {
                 val editor = pref.edit()
                 val gson = Gson()

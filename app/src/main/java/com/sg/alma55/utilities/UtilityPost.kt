@@ -388,7 +388,7 @@ class UtilityPost {
      }*/
 
 
-    fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+  /*  fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
         val postId = snap?.getLong(POST_ID)!!.toInt()
         val postNum = snap?.getLong(POST_NUM)!!.toInt()
         val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
@@ -439,7 +439,50 @@ class UtilityPost {
            logi("Utility 431   newPost1.postMargin=${newPost1.postMargin.joinToString()}")
          }*/
         return newPost1
-    }
+    }*/
+
+fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+    val postId = snap?.getLong(POST_ID)!!.toInt()
+    val postNum = snap?.getLong(POST_NUM)!!.toInt()
+    val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
+    val imageUri = snap?.getString(POST_IMAGE_URI).toString()
+    val postText: ArrayList<String> = snap?.get(POST_TEXT) as ArrayList<String>
+    val postBackground = snap?.getString(POST_BACKGROUND).toString()
+    val postTranparency = snap?.getLong(POST_TRANPARECY)!!.toInt()
+    val postTextColor: ArrayList<String> = snap?.get(POST_TEXT_COLOR) as ArrayList<String>
+    val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
+    val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
+    val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
+
+    val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
+    val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
+    val postPadding1 = snap?.getString(POST_PADDING).toString()
+    val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
+    val postMargin1 = snap?.getString(POST_MARGIN).toString()
+    val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
+    //val postLineSpacing = snap?.getLong(POST_LINE_SPACING)!!.toFloat()
+    val postLineSpacing = snap.getDouble(POST_LINE_SPACING)       //save it in Double
+
+    val newPost1 = Post(
+        postId,
+        postNum,
+        lineNum,
+        imageUri,
+        postText,
+        postMargin,
+        postBackground,
+        postTranparency,
+        postTextSize,
+        postPadding,
+        postTextColor,
+        postFontFamily,
+        postRadius,
+        timestamp,
+        postLineSpacing
+    )
+    //logi("Utility 207   post=${newPost1}")
+    return newPost1
+}
 
 
     private fun convertFromStringArrayToIntArry(str: String): ArrayList<Int> {
