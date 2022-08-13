@@ -96,7 +96,7 @@ class SplashActivity : BaseActivity() {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
 
-                        if (post.postNum in 805..1000) {
+                        if (post.postNum in 804..805) {
 //                        if (post.postNum in 805..1000) {
                    //  if (posts.size in 0..10) {
                             posts.add(post)
@@ -342,7 +342,7 @@ class SplashActivity : BaseActivity() {
             {
                 if (!pressHelpBtn) {
                     //chkProblemInPosts()
-                    startActivity(Intent(this, MainActivity::class.java))
+                   startActivity(Intent(this, MainActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()

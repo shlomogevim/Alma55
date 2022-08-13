@@ -42,6 +42,7 @@ import com.sg.alma55.utilities.Constants.POST_PADDING
 import com.sg.alma55.utilities.Constants.POST_RADIUS
 import com.sg.alma55.utilities.Constants.POST_TEXT
 import com.sg.alma55.utilities.Constants.POST_TEXT_COLOR
+import com.sg.alma55.utilities.Constants.POST_TEXT_LOCATION
 import com.sg.alma55.utilities.Constants.POST_TEXT_SIZE
 import com.sg.alma55.utilities.Constants.POST_TIME_STAMP
 import com.sg.alma55.utilities.Constants.POST_TRANPARECY
@@ -441,48 +442,51 @@ class UtilityPost {
         return newPost1
     }*/
 
-fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
-    val postId = snap?.getLong(POST_ID)!!.toInt()
-    val postNum = snap?.getLong(POST_NUM)!!.toInt()
-    val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
-    val imageUri = snap?.getString(POST_IMAGE_URI).toString()
-    val postText: ArrayList<String> = snap?.get(POST_TEXT) as ArrayList<String>
-    val postBackground = snap?.getString(POST_BACKGROUND).toString()
-    val postTranparency = snap?.getLong(POST_TRANPARECY)!!.toInt()
-    val postTextColor: ArrayList<String> = snap?.get(POST_TEXT_COLOR) as ArrayList<String>
-    val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
-    val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
-    val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
+    fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+        val postId = snap?.getLong(POST_ID)!!.toInt()
+        val postNum = snap?.getLong(POST_NUM)!!.toInt()
+        val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
+        val imageUri = snap?.getString(POST_IMAGE_URI).toString()
+        val postText: ArrayList<String> = snap?.get(POST_TEXT) as ArrayList<String>
+        val postBackground = snap?.getString(POST_BACKGROUND).toString()
+        val postTranparency = snap?.getLong(POST_TRANPARECY)!!.toInt()
+        val postTextColor: ArrayList<String> = snap?.get(POST_TEXT_COLOR) as ArrayList<String>
+        val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
+        val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
+        val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
 
-    val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
-    val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
-    val postPadding1 = snap?.getString(POST_PADDING).toString()
-    val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
-    val postMargin1 = snap?.getString(POST_MARGIN).toString()
-    val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
-    //val postLineSpacing = snap?.getLong(POST_LINE_SPACING)!!.toFloat()
-    val postLineSpacing = snap.getDouble(POST_LINE_SPACING)       //save it in Double
+        val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
+        val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
+        val postPadding1 = snap?.getString(POST_PADDING).toString()
+        val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
+        val textLocation1 = snap?.getString(POST_TEXT_LOCATION).toString()
+        val textLocation: ArrayList<Int> = convertFromStringArrayToIntArry(textLocation1)
+        val postMargin1 = snap?.getString(POST_MARGIN).toString()
+        val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
+       // val postLineSpacing = snap?.getLong(POST_LINE_SPACING)!!.toFloat()
+        val postLineSpacing = 1.4f
 
-    val newPost1 = Post(
-        postId,
-        postNum,
-        lineNum,
-        imageUri,
-        postText,
-        postMargin,
-        postBackground,
-        postTranparency,
-        postTextSize,
-        postPadding,
-        postTextColor,
-        postFontFamily,
-        postRadius,
-        timestamp,
-        postLineSpacing
-    )
-    //logi("Utility 207   post=${newPost1}")
-    return newPost1
-}
+        val newPost1 = Post(
+            postId,
+            postNum,
+            lineNum,
+            imageUri,
+            postText,
+            postMargin,
+            postBackground,
+            postTranparency,
+            postTextSize,
+            postPadding,
+            textLocation,
+            postTextColor,
+            postFontFamily,
+            postRadius,
+            timestamp,
+            postLineSpacing
+        )
+      //   logi("UtilityPost 486   postNum=${postNum}")
+        return newPost1
+    }
 
 
     private fun convertFromStringArrayToIntArry(str: String): ArrayList<Int> {
@@ -492,9 +496,15 @@ fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
 
     private fun littleHelper(str: String, arr: ArrayList<Int>): ArrayList<Int> {
         val str = str.split(",")
-        for (index in 0 until str.size) {
-            arr.add(str[index].trim().toInt())
+
+//        for (index in 0 until str.size) {
+//            arr.add(str[index].trim().toInt())
+//        }
+
+        for (index  in 0..2){
+            arr.add(222222)
         }
+
         return arr
     }
 
