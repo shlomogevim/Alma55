@@ -1,23 +1,12 @@
 package com.sg.alma55.utilities
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.sg.alma55.R
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
@@ -28,8 +17,8 @@ import com.sg.alma55.utilities.Constants.COMMENT_POST_NUM_STRING
 import com.sg.alma55.utilities.Constants.COMMENT_TEXT
 import com.sg.alma55.utilities.Constants.COMMENT_USER_ID
 import com.sg.alma55.utilities.Constants.COMMENT_USER_NAME
-import com.sg.alma55.utilities.Constants.DIALOG_EXSTRA
 import com.sg.alma55.utilities.Constants.FIRESTORE_USER_ID
+import com.sg.alma55.utilities.Constants.NOT_EXIST
 import com.sg.alma55.utilities.Constants.POST_BACKGROUND
 import com.sg.alma55.utilities.Constants.POST_FONT_FAMILY
 import com.sg.alma55.utilities.Constants.POST_ID
@@ -42,6 +31,7 @@ import com.sg.alma55.utilities.Constants.POST_PADDING
 import com.sg.alma55.utilities.Constants.POST_RADIUS
 import com.sg.alma55.utilities.Constants.POST_TEXT
 import com.sg.alma55.utilities.Constants.POST_TEXT_COLOR
+import com.sg.alma55.utilities.Constants.POST_TEXT_LOCATION
 import com.sg.alma55.utilities.Constants.POST_TEXT_SIZE
 import com.sg.alma55.utilities.Constants.POST_TIME_STAMP
 import com.sg.alma55.utilities.Constants.POST_TRANPARECY
@@ -50,7 +40,6 @@ import com.sg.alma55.utilities.Constants.USER_EMAIL
 import com.sg.alma55.utilities.Constants.USER_FULLNAME
 import com.sg.alma55.utilities.Constants.USER_IMAGE
 import com.sg.alma55.utilities.Constants.USER_USERNAME
-import java.lang.reflect.Type
 
 class UtilityPost {
 
@@ -388,7 +377,63 @@ class UtilityPost {
      }*/
 
 
-  /*  fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+    /*  fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+          val postId = snap?.getLong(POST_ID)!!.toInt()
+          val postNum = snap?.getLong(POST_NUM)!!.toInt()
+          val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
+          val imageUri = snap?.getString(POST_IMAGE_URI).toString()
+          val postText: ArrayList<String> = snap?.get(POST_TEXT) as ArrayList<String>
+          val postBackground = snap?.getString(POST_BACKGROUND).toString()
+          val postTranparency = snap?.getLong(POST_TRANPARECY)!!.toInt()
+          val postTextColor: ArrayList<String> = snap?.get(POST_TEXT_COLOR) as ArrayList<String>
+          val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
+          val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
+          val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
+          val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
+          val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
+          val postPadding1 = snap?.getString(POST_PADDING).toString()
+          val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
+          val postMargin1 = snap?.getString(POST_MARGIN).toString()
+          // logi("Utility 383  ")
+          val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
+          // var postLineSpacing=1.4f
+          //  if ( snap?.getLong(POST_LINE_SPACING) !=null) {
+          val postLineSpacing = snap.getDouble(POST_LINE_SPACING)       //save it in Double
+          // logi("UtilityPost 415       postLineSpacing=$postLineSpacing")
+          //val postRecommended=snap.getLong(POST_RECOMMENDED)!!.toInt()
+
+          val newPost1 = Post(
+              postId,
+              postNum,
+              lineNum,
+              imageUri,
+              postText,
+              postMargin,
+              postBackground,
+              postTranparency,
+              postTextSize,
+              postPadding,
+              postTextColor,
+              postFontFamily,
+              postRadius,
+              timestamp,
+              postLineSpacing
+
+
+          )
+      /*
+  //         if (newPost1.postNum==1000){
+           if (newPost1.postNum==901){
+  //         if (newPost1.postNum==4940){
+             logi("Utility 431   newPost1.postMargin=${newPost1.postMargin.joinToString()}")
+           }*/
+          return newPost1
+      }*/
+
+    fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
+        var textLocation1: String? =null
+        var postTextSize1: String? =null
+        var postPadding1:String?=null
         val postId = snap?.getLong(POST_ID)!!.toInt()
         val postNum = snap?.getLong(POST_NUM)!!.toInt()
         val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
@@ -400,18 +445,19 @@ class UtilityPost {
         val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
         val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
         val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
-        val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
-        val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
-        val postPadding1 = snap?.getString(POST_PADDING).toString()
-        val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
+
+          postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
+        val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(1,postTextSize1)
+
+          postPadding1 = snap?.getString(POST_PADDING).toString()
+        val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(2,postPadding1)
+
+         textLocation1 = snap?.getString(POST_TEXT_LOCATION).toString()
+        val  textLocation: ArrayList<Int> = convertFromStringArrayToIntArry(3,textLocation1)
         val postMargin1 = snap?.getString(POST_MARGIN).toString()
-        // logi("Utility 383  ")
         val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
-        // var postLineSpacing=1.4f
-        //  if ( snap?.getLong(POST_LINE_SPACING) !=null) {
-        val postLineSpacing = snap.getDouble(POST_LINE_SPACING)       //save it in Double
-        // logi("UtilityPost 415       postLineSpacing=$postLineSpacing")
-        //val postRecommended=snap.getLong(POST_RECOMMENDED)!!.toInt()
+        val postLineSpacing = snap?.getDouble(POST_LINE_SPACING)
+        //val postLineSpacing = 1.4f
 
         val newPost1 = Post(
             postId,
@@ -424,77 +470,76 @@ class UtilityPost {
             postTranparency,
             postTextSize,
             postPadding,
+            textLocation,
             postTextColor,
             postFontFamily,
             postRadius,
             timestamp,
             postLineSpacing
-
-
         )
-    /*
-//         if (newPost1.postNum==1000){
-         if (newPost1.postNum==901){
-//         if (newPost1.postNum==4940){
-           logi("Utility 431   newPost1.postMargin=${newPost1.postMargin.joinToString()}")
-         }*/
+        //   logi("UtilityPost 486   postNum=${postNum}")
         return newPost1
-    }*/
-
-fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
-    val postId = snap?.getLong(POST_ID)!!.toInt()
-    val postNum = snap?.getLong(POST_NUM)!!.toInt()
-    val lineNum = snap?.getLong(POST_LINE_NUM)!!.toInt()
-    val imageUri = snap?.getString(POST_IMAGE_URI).toString()
-    val postText: ArrayList<String> = snap?.get(POST_TEXT) as ArrayList<String>
-    val postBackground = snap?.getString(POST_BACKGROUND).toString()
-    val postTranparency = snap?.getLong(POST_TRANPARECY)!!.toInt()
-    val postTextColor: ArrayList<String> = snap?.get(POST_TEXT_COLOR) as ArrayList<String>
-    val postFontFamily = snap?.getLong(POST_FONT_FAMILY)!!.toInt()
-    val postRadius = snap?.getLong(POST_RADIUS)!!.toInt()
-    val timestamp = snap?.getTimestamp(POST_TIME_STAMP)
-
-    val postTextSize1 = snap?.getString(POST_TEXT_SIZE).toString()
-    val postTextSize: ArrayList<Int> = convertFromStringArrayToIntArry(postTextSize1)
-    val postPadding1 = snap?.getString(POST_PADDING).toString()
-    val postPadding: ArrayList<Int> = convertFromStringArrayToIntArry(postPadding1)
-    val postMargin1 = snap?.getString(POST_MARGIN).toString()
-    val postMargin: ArrayList<ArrayList<Int>> = convertFromStringArrayToIntArry2(postMargin1)
-    //val postLineSpacing = snap?.getLong(POST_LINE_SPACING)!!.toFloat()
-    val postLineSpacing = snap.getDouble(POST_LINE_SPACING)       //save it in Double
-
-    val newPost1 = Post(
-        postId,
-        postNum,
-        lineNum,
-        imageUri,
-        postText,
-        postMargin,
-        postBackground,
-        postTranparency,
-        postTextSize,
-        postPadding,
-        postTextColor,
-        postFontFamily,
-        postRadius,
-        timestamp,
-        postLineSpacing
-    )
-    //logi("Utility 207   post=${newPost1}")
-    return newPost1
-}
-
-
-    private fun convertFromStringArrayToIntArry(str: String): ArrayList<Int> {
+    }
+    private fun convertFromStringArrayToIntArryS(num: Int, str: String): ArrayList<Int> {
+        /* if (num==100) {
+           logi("Utility  479    str=$str ")
+       }*/
         var newAr = ArrayList<Int>()
-        return littleHelper(str, newAr)
+        return littleHelperS(num, str, newAr)
     }
 
-    private fun littleHelper(str: String, arr: ArrayList<Int>): ArrayList<Int> {
+    private fun littleHelperS(num: Int, str: String, arr: ArrayList<Int>): ArrayList<Int> {
         val str = str.split(",")
+       /* if (num == 100) {
+            logi("Utility  487    str=$str ")
+            for (index in 0 until str.size) {
+                arr.add(str[index].trim().toInt())
+            }
+        }*/
+
         for (index in 0 until str.size) {
             arr.add(str[index].trim().toInt())
         }
+
+      /*    for (index  in 0..2){
+              arr.add(222222)
+          }*/
+
+        return arr
+    }
+
+    private fun convertFromStringArrayToIntArry(ind:Int,str: String): ArrayList<Int> {
+        var st=""
+   //     logi("Utility 508    ind=$ind     str=$str")
+        if (str=="null"){
+            when (ind){
+                1->st="0,20"
+                2->st="0,0,0,0"
+                3->st="102, -1, 35, 10, 0, -60, 0, 0"
+                else->st="0,0,0,0,0,0,0,0"
+            }
+        }else{
+            st=str
+        }
+    //   logi("Utility 520    ind=$ind     st=$st")
+        var newAr = ArrayList<Int>()
+        return littleHelper(st, newAr)
+    }
+
+    private fun littleHelper(str: String, arr: ArrayList<Int>): ArrayList<Int> {
+
+        val str = str.split(",")
+       // logi("Utility 515 str=$str")
+
+           for (index in 0 until str.size) {
+               arr.add(str[index].trim().toInt())
+           }
+        logi("UtilityPost 537   arr=${arr.joinToString()}   ")
+
+       /* for (index in 0..2) {
+            arr.add(222222)
+        }*/
+
         return arr
     }
 

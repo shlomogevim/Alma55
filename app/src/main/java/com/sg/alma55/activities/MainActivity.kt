@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
 //       logi("MainActivity 63   onResume        sortSystem$sortSystem")
         posts.clear()
       //  downloadAllPost()
-       posts = loadPosts()
+      posts = loadPosts()
 
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
@@ -166,13 +166,13 @@ class MainActivity : BaseActivity() {
             }
         return posts
     }*/
-    private fun showPost(post:Post) {
+  /*  private fun showPost(post:Post) {
         if (post.postNum==1000){
 //             if (post.postNum==901){
 //             if (post.postNum==4940){
             logi("MainActivity  171    post.postMargin=${post.postMargin.joinToString()}")
         }
-    }
+    }*/
 
     private fun moveIt() {
         //logi("MainActivity 129   currentPostNum=$currentPostNum")

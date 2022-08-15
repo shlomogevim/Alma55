@@ -3,11 +3,9 @@ package com.sg.alma55.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.util.Log
 import android.view.animation.AlphaAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -26,7 +24,6 @@ import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
 import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
-import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
@@ -53,9 +50,9 @@ class SplashActivity : BaseActivity() {
         FirestoreClass().getUserDetails(this)
         initData()
         activateButtoms()
-        getHeadLines()
-        retriveComments()
-        downloadAllPost()
+   getHeadLines()
+      retriveComments()
+    downloadAllPost()
 
 //       logi("aaaaaa")
 //        val posts10= downloadAllPost()
@@ -77,16 +74,11 @@ class SplashActivity : BaseActivity() {
         pauseIt()
     }
 
-    private fun showPosts10(posts10: java.util.ArrayList<Post>) {
-
-        for (post in posts10) {
-            showPost(300, post)
-        }
-    }
-
 
     fun downloadAllPost(): ArrayList<Post> {
-        //  posts.clear()
+        //var index=0
+
+         posts.clear()
         //    var post1=Post()
         //    showPosts(0)
         FirebaseFirestore.getInstance().collection(POST_REF)
@@ -96,25 +88,24 @@ class SplashActivity : BaseActivity() {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
 
-                        if (post.postNum in 805..1000) {
-//                        if (post.postNum in 805..1000) {
-                   //  if (posts.size in 0..10) {
-                            posts.add(post)
-
-                      }
+                     if (post.postNum in 554..1000) {
+                         posts.add(post)
+                     }
+                   //   index++
                     }
 
                     pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
                     retriveGradeMapFromSharPref()
-                    savePosts()
+                   savePosts()
+                  //  showPosts(0)
                 }
             }
 
-        showPosts(1)
-        return posts
+         return posts
     }
 
     private fun showPosts(ind: Int) {
+      //  logi("SplashActivity 123  posts=${posts.joinToString()}  ind=$ind")
         for (post in posts) {
             showPost(ind, post)
         }
@@ -125,18 +116,13 @@ class SplashActivity : BaseActivity() {
 //             if (post.postNum==901){
 //             if (post.postNum==4940){
         //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} \n posts==>${posts.joinToString()}")
-        logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} ")
+     //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} ")
+        logi("SplashActivity-> 102    post==>$post ")
         logi("------------------------------")
         //     }
     }
 
-    private fun chkProblemInPosts() {
-        posts = loadPosts()
-        logi("****************")
-        logi("\n\nSplashActivity  reload-> 118   posts==>${posts.joinToString()}")
 
-
-    }
 
     private fun showPost1(post: Post) {
         // if (post.postNum==1000){
@@ -157,6 +143,7 @@ class SplashActivity : BaseActivity() {
                 break
             }
         }
+   //     logi("SplashActivity 146   posts=${posts.joinToString()}")
         pref.edit().remove(SHARPREF_POSTS_ARRAY).commit()
         val editor = pref.edit()
         val gson = Gson()
@@ -342,7 +329,7 @@ class SplashActivity : BaseActivity() {
             {
                 if (!pressHelpBtn) {
                     //chkProblemInPosts()
-                    startActivity(Intent(this, MainActivity::class.java))
+                   startActivity(Intent(this, MainActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()
