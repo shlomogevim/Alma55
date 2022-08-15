@@ -104,14 +104,14 @@ class SplashActivity : BaseActivity() {
          return posts
     }
 
-    private fun showPosts(ind: Int) {
+   /* private fun showPosts(ind: Int) {
       //  logi("SplashActivity 123  posts=${posts.joinToString()}  ind=$ind")
         for (post in posts) {
             showPost(ind, post)
         }
-    }
+    }*/
 
-    private fun showPost(ind: Int, post: Post) {
+   /* private fun showPost(ind: Int, post: Post) {
         //  if (post.postNum==1000){
 //             if (post.postNum==901){
 //             if (post.postNum==4940){
@@ -120,7 +120,7 @@ class SplashActivity : BaseActivity() {
         logi("SplashActivity-> 102    post==>$post ")
         logi("------------------------------")
         //     }
-    }
+    }*/
 
 
 
