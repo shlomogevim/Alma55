@@ -24,6 +24,7 @@ import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
 import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
+import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_TIME_PUBLISH
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_SYSTEM
 import com.sg.alma55.utilities.Constants.SHARPREF_SPLASH_SCREEN_DELAY
@@ -76,6 +77,10 @@ class SplashActivity : BaseActivity() {
 
 
     fun downloadAllPost(): ArrayList<Post> {
+        var bo1=false
+        var bo2=false
+        var bo3=false
+        var bo4=false
         //var index=0
 
          posts.clear()
@@ -88,10 +93,21 @@ class SplashActivity : BaseActivity() {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
 
-                     if (post.postNum in 554..1000) {
-                         posts.add(post)
+
+
+                     if (post.postNum in 500..1000 ) {
+                         if (post.postNum in 500..1000){
+                             bo1=true
+                         }
+                         if (post.postNum in 400..450){
+                             bo1=true
+                         }
+
+                         if (bo1 || bo2){
+                             posts.add(post)
+                         }
+
                      }
-                   //   index++
                     }
 
                     pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
@@ -168,7 +184,7 @@ class SplashActivity : BaseActivity() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         pref.edit().remove(SHARPREF_ALMA).apply()
         pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, 0).apply()
-        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).apply()
+        pref.edit().putString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_RECOMMENDED).apply()
         pref.edit().putString(SHARPREF_MOVING_BACKGROUND, TRUE).apply()
         delayInMicroSecond = pref.getInt(SHARPREF_SPLASH_SCREEN_DELAY, 10) * 1000
     }
