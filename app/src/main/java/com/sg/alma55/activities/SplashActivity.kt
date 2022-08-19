@@ -77,13 +77,7 @@ class SplashActivity : BaseActivity() {
 
 
     fun downloadAllPost(): ArrayList<Post> {
-        var bo1=false
-        var bo2=false
-        var bo3=false
-        var bo4=false
-        //var index=0
-
-         posts.clear()
+               posts.clear()
         //    var post1=Post()
         //    showPosts(0)
         FirebaseFirestore.getInstance().collection(POST_REF)
@@ -93,52 +87,18 @@ class SplashActivity : BaseActivity() {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
 
-
-
-                     if (post.postNum in 500..1000 ) {
-                         if (post.postNum in 500..1000){
-                             bo1=true
-                         }
-                         if (post.postNum in 400..450){
-                             bo1=true
-                         }
-
-                         if (bo1 || bo2){
                              posts.add(post)
-                         }
 
-                     }
                     }
 
                     pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
                     retriveGradeMapFromSharPref()
                    savePosts()
-                  //  showPosts(0)
                 }
             }
 
          return posts
     }
-
-   /* private fun showPosts(ind: Int) {
-      //  logi("SplashActivity 123  posts=${posts.joinToString()}  ind=$ind")
-        for (post in posts) {
-            showPost(ind, post)
-        }
-    }*/
-
-   /* private fun showPost(ind: Int, post: Post) {
-        //  if (post.postNum==1000){
-//             if (post.postNum==901){
-//             if (post.postNum==4940){
-        //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} \n posts==>${posts.joinToString()}")
-     //   logi("SplashActivity-> 102    ind=$ind   postNum=${post.postNum} post.postMargin=${post.postMargin.joinToString()} ")
-        logi("SplashActivity-> 102    post==>$post ")
-        logi("------------------------------")
-        //     }
-    }*/
-
-
 
     private fun showPost1(post: Post) {
         // if (post.postNum==1000){
@@ -348,8 +308,8 @@ class SplashActivity : BaseActivity() {
                    startActivity(Intent(this, MainActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
-//           }, delayInMicroSecond.toLong()
-            }, 0
+           }, delayInMicroSecond.toLong()
+//            }, 0
         )
     }
 
