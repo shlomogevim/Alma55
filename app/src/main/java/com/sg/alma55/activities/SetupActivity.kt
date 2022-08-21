@@ -11,6 +11,7 @@ import com.sg.alma55.activities_tt.CommentsScreenActivity
 import com.sg.alma55.activities_tt.GeneralCommentActivity
 import com.sg.alma55.activities_tt.GradePostActivity
 import com.sg.alma55.activities_tt.SplashDelayActivity
+import com.sg.alma55.aricles.ArticlesActivity
 import com.sg.alma55.databinding.ActivitySetupBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
@@ -77,6 +78,10 @@ class SetupActivity : BaseActivity() {
     }
     private fun setupButtons() {
         //chkGradeExist()
+        binding.btnArticles.setOnClickListener {
+            startActivity(Intent(this, ArticlesActivity::class.java))
+            finish()
+        }
         binding.btnGradePost.setOnClickListener {
             startActivity(Intent(this, GradePostActivity::class.java))
             finish()

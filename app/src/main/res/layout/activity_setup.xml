@@ -20,14 +20,20 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <Button
+                android:id="@+id/btn_articles"
+                style="@style/ButtonFamily10"
+                android:text=" מאמרים "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
     <Button
         android:id="@+id/btn_grade_post"
         style="@style/ButtonFamily10"
         android:text="דרג את הפוסט הזה "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"  />
+        app:layout_constraintTop_toBottomOf="@id/btn_articles" />
     <Button
         android:id="@+id/btn_grade_order"
         style="@style/ButtonFamily10"

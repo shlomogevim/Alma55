@@ -129,6 +129,7 @@ object Constants {
 
     const val DIALOG_EXSTRA = "dealogexstra"
     const val HELP_EXPLANATION_INDEX="helpExplationIndex"
+    const val ARTICLES_DETALES_INDEX="articlesDitalesIndex"
 
 
 

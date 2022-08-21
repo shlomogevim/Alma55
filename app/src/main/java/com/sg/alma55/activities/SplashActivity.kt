@@ -308,8 +308,8 @@ class SplashActivity : BaseActivity() {
                    startActivity(Intent(this, MainActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
-           }, delayInMicroSecond.toLong()
-//            }, 0
+//           }, delayInMicroSecond.toLong()
+            }, 0
         )
     }
 

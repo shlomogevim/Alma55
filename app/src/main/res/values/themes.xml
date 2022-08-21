@@ -33,14 +33,21 @@
     </style>
 
     <style name="HelperTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/a103_gadi_almog_regular_aaa</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="AppTheme.Button1" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:elevation">1dp</item>
-        <item name="android:translationZ">1dp</item>
-
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">false</item>
 
     </style>
 
@@ -69,6 +76,27 @@
         <!--        <item name="android:elevation">10dp</item>-->
         <!--        <item name="android:translationZ">10dp</item>-->
         <item name="android:lineSpacingExtra">10dp</item>
+    </style>
+
+    <style name="ArticaleText1" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/a103_gadi_almog_regular_aaa</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+        <item name="android:layout_margin">1dp</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="ArticaleText2" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/a220_davidlibre_regular</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
 

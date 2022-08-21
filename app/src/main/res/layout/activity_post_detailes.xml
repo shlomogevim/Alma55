@@ -17,68 +17,57 @@
     <LinearLayout
         android:id="@+id/buttomLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="1dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/definitionBtn"
             style="@style/AppTheme.Button1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:fontFamily="@font/a103_gadi_almog_regular_aaa"
             android:text="הגדרות"
-            android:textAllCaps="false"
-            android:textSize="16sp" />
+              />
 
         <Button
             android:id="@+id/nameCurrentUserName"
             style="@style/AppTheme.Button1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:fontFamily="@font/a103_gadi_almog_regular_aaa"
             android:text="אורח"
-            android:textAllCaps="false"
-            android:textSize="16sp" />
+                  />
 
         <Button
             android:id="@+id/signInBtn"
             style="@style/AppTheme.Button1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:fontFamily="@font/a103_gadi_almog_regular_aaa"
             android:text="הכנס"
-            android:textSize="16sp" />
+          />
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+  <Button
+        android:id="@+id/helpBtn"
+        style="@style/AppTheme.Button1"
         android:layout_below="@id/buttomLayout"
         android:layout_toLeftOf="@id/postNumber"
         android:layout_alignLeft="@id/buttomLayout"
-        android:id="@+id/helpBtn"
-        style="@style/AppTheme.Button1"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
        android:fontFamily="@font/a103_gadi_almog_regular_aaa"
-        android:text="עזרה"
-        android:textAllCaps="false"
-        android:textSize="16sp"  />
-
+        android:text="עזרה"  />
     <ToggleButton
         android:id="@+id/movingModeBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        style="@style/AppTheme.Button1"
+        android:layout_height="40dp"
         android:layout_below="@id/buttomLayout"
         android:layout_alignRight="@id/buttomLayout"
         android:layout_marginStart="5dp"
@@ -89,7 +78,7 @@
         android:textColor="@color/white"
         android:textOff="סטטי"
         android:textOn="דינמי"
-        android:textSize="16sp" />
+        />
 
 
     <TextView
@@ -128,6 +117,7 @@
             android:backgroundTint="@color/broun1"
             android:fontFamily="@font/a103_gadi_almog_regular_aaa"
             android:gravity="center"
+            android:layout_marginTop="1dp"
             android:padding="2dp"
             android:text="שורה אחת"
             android:textColor="@color/white"
