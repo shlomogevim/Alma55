@@ -5,8 +5,7 @@
     android:id="@+id/mainBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".aricles.ArticlesDetails"
+     tools:context=".aricles.ArticlesDetails"
 
     android:keepScreenOn="true"
     >
@@ -18,26 +17,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <!--<TextView
-            android:id="@+id/tv_article1"
-            style="@style/ArticaleText2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
-
         <TextView
-            android:id="@+id/tv_article2"
+            android:id="@+id/tv_article"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/a220_davidlibre_regular"
             android:paddingRight="10dp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="1dp"
             android:gravity="right"
             android:textColor="@color/teal_700"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
 

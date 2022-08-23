@@ -14,9 +14,18 @@ class ArticlesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityArticlesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //otomatSekection()
+
         setupBottons()
     }
 
+    private fun otomatSekection(){
+
+        val intent = Intent(this, ArticlesDetails::class.java)
+        intent.putExtra(Constants.ARTICLES_DETALES_INDEX, 3)
+        startActivity(intent)
+    }
     private fun setupBottons() {
         binding.btnAtora.setOnClickListener {
             val intent = Intent(this, ArticlesDetails::class.java)
@@ -31,6 +40,11 @@ class ArticlesActivity : AppCompatActivity() {
         binding.btnNachman1.setOnClickListener {
             val intent = Intent(this, ArticlesDetails::class.java)
             intent.putExtra(Constants.ARTICLES_DETALES_INDEX, 3)
+            startActivity(intent)
+        }
+        binding.btnOlamon.setOnClickListener {
+            val intent = Intent(this, ArticlesDetails::class.java)
+            intent.putExtra(Constants.ARTICLES_DETALES_INDEX, 4)
             startActivity(intent)
         }
 
