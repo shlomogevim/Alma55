@@ -13,16 +13,24 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Alma55">
         <activity
-            android:name=".aricles.ArticlesDetails"
-            android:exported="false" />
+            android:name=".aricles.AtoraDetailesActivity"
+            android:exported="false" >
+        </activity>
         <activity
-            android:name=".aricles.ArticlesActivity"
-            android:exported="true" >
+            android:name=".aricles.AtoraActivity"
+            android:exported="true">
+
 
 
 
 
         </activity>
+        <activity
+            android:name=".aricles.ArticlesDetails"
+            android:exported="false" />
+        <activity
+            android:name=".aricles.ArticlesActivity"
+            android:exported="true" />
         <activity
             android:name=".activities_tt.GradePostActivity"
             android:exported="false" />
@@ -68,11 +76,18 @@
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+
+
+
 
 
         </activity>

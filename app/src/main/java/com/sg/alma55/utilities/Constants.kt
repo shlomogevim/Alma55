@@ -130,6 +130,20 @@ object Constants {
     const val DIALOG_EXSTRA = "dealogexstra"
     const val HELP_EXPLANATION_INDEX="helpExplationIndex"
     const val ARTICLES_DETALES_INDEX="articlesDitalesIndex"
+   // const val ATORA_DETALES_INDEX="atoraDitalesIndex"
+
+
+    const val ARTICAL_MODE="articalMode"
+    const val ARTICAL_REF="Articles"
+    const val ARTICAL_NUM="articalNum"
+    const val ARTICAL_TEXT="articalText"
+    const val ARTICAL_TEXT_COLOR="articalTextColor"
+    const val ARTICAL_TEXT_SIZE="articalTextSize"
+    const val ARTICAL_TITLE="articalTitle"
+    const val ARTICAL_BACKGROUND="articalBackGround"
+    const val ARTICAL_FONT_FAMILY="articalFontFamily"
+    const val ARTICAL_TIMESTAMP="articalTimestamp"
+   const val SHARPREF_ARTICLRS_ARRAY="sharprefArticulesArray"
 
 
 

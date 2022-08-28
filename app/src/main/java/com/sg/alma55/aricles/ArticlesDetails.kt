@@ -1,67 +1,123 @@
 package com.sg.alma55.aricles
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.sg.alma55.R
 import com.sg.alma55.databinding.ActivityArticlesDetailsBinding
+import com.sg.alma55.models.Article
+import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import java.lang.reflect.Type
 
-class ArticlesDetails : AppCompatActivity() {
+class ArticlesDetails : BaseActivity() {
     lateinit var binding: ActivityArticlesDetailsBinding
+
+    var articles = ArrayList<Article>()
     private var articlesIndex = 0
-    private var fileName = ""
     private var backGroundColor = ""
     private var textColor = ""
+    private var texti = ""
+    lateinit var gson: Gson
+    lateinit var   pref: SharedPreferences
+    lateinit var currentArticle:Article
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityArticlesDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        pref = getSharedPreferences(Constants.SHARPREF_ALMA,MODE_PRIVATE)
+        gson = Gson()
+        articles=loadArticles()
+
         articlesIndex = intent.getIntExtra(Constants.ARTICLES_DETALES_INDEX, 0)
+        currentArticle=findArticle(articlesIndex)
+        draw_current_articles()
 
-        when (articlesIndex) {
-            1 -> {
-                fileName = "myText1"
-                backGroundColor="#0A174E"
-                textColor="#F5D042"
-            }
-            2 -> {
-                fileName = "myText2"
-                backGroundColor="#2BAE66"
-                textColor="#ffffff"
-            }
-            3 -> {
-                fileName = "myText3"
-                backGroundColor="#0A174E"
-                textColor="#F5D042"
-            }
-            4 -> {
-                fileName = "myText4"
-                backGroundColor="#333D79"
-                textColor="#ffffff"
-            }
-
-
-            else -> {
-                "myText1"
-                backGroundColor="#0A174E"
-                textColor="#F5D042"
-            }
         }
+
+    private fun draw_current_articles() {
+        backGroundColor=currentArticle.articleBackground
+        textColor=currentArticle.articleTextColor
+        texti=currentArticle.aricleText
+
         binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
         binding.tvArticle.setTextColor(Color.parseColor(textColor))
-        activateText()
+        binding.tvArticle.text=texti
     }
-
-    private fun activateText() {
-        binding.tvArticle.text = application.assets.open(fileName).bufferedReader().use {
-            it.readText()
+    private fun loadArticles(): ArrayList<Article> {
+        articles.clear()
+        val json: String? = pref.getString(Constants.SHARPREF_ARTICLRS_ARRAY, null)
+        val type: Type = object : TypeToken<ArrayList<Article>>() {}.type
+        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
+        val arr: ArrayList<Article> = gson.fromJson(json, type)
+        return arr
+    }
+    private fun findArticle(key: Int): Article {
+        for (art in articles) {
+            if (art.aricleNum == key) {
+                return art
+            }
         }
+        return Article()
     }
 }
+
+/*   binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
+   binding.tvArticle.setTextColor(Color.parseColor(textColor))
+   activateText()*/
+
+/*  backGroundColor=currentArticle.articleBackground
+    textColor=currentArticle.articleTextColor
+    texti=currentArticle.articleTextColor
+
+    binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
+    binding.tvArticle.setTextColor(Color.parseColor(textColor))
+    binding.tvArticle.text=texti*/
+
+
+/* private fun activateText() {
+     binding.tvArticle.text = application.assets.open(fileName).bufferedReader().use {
+         it.readText()
+     }
+     val st:String=application.assets.open(fileName).bufferedReader().use {
+         it.readText()
+     }*/
+
+/* when (articlesIndex) {
+          1 -> {
+              fileName = "myText1"
+              backGroundColor="#0A174E"
+              textColor="#F5D042"
+          }
+          2 -> {
+              fileName = "myText2"
+              backGroundColor="#2BAE66"
+              textColor="#ffffff"
+          }
+          3 -> {
+              fileName = "myText3"
+              backGroundColor="#0A174E"
+              textColor="#F5D042"
+          }
+          4 -> {
+              fileName = "myText4"
+              backGroundColor="#333D79"
+              textColor="#ffffff"
+          }
+
+
+          else -> {
+              "myText1"
+              backGroundColor="#0A174E"
+              textColor="#F5D042"
+          }*/
+
 
 
 /* private fun getText1() {

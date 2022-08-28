@@ -10,15 +10,19 @@ import android.view.animation.AlphaAnimation
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.sg.alma55.aricles.ArticlesActivity
 import com.sg.alma55.databinding.ActivitySplashBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
+import com.sg.alma55.models.Article
 import com.sg.alma55.models.Comment
 import com.sg.alma55.utilities.*
+import com.sg.alma55.utilities.Constants.ARTICAL_REF
 import com.sg.alma55.utilities.Constants.COMMENT_REF
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.POST_REF
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
+import com.sg.alma55.utilities.Constants.SHARPREF_ARTICLRS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
@@ -40,6 +44,7 @@ class SplashActivity : BaseActivity() {
     var delayInMicroSecond = 0
     lateinit var timer: CountDownTimer
     var posts = ArrayList<Post>()
+    var articles = ArrayList<Article>()
     val comments = ArrayList<Comment>()
     lateinit var gradeArray: ArrayList<Int>
     lateinit var gradeHashMap: HashMap<Int, Int>
@@ -55,24 +60,8 @@ class SplashActivity : BaseActivity() {
       retriveComments()
     downloadAllPost()
 
-//       logi("aaaaaa")
-//        val posts10= downloadAllPost()
-//        Handler().postDelayed({
-//            logi("bbbbbbbbbbbbbb")
-//            showPosts(30)
-//        }, 1000)
-
-        //posts=downloadAllPost()
-
-        /*   val posts10= downloadAllPost()
-             showPosts10(posts10)*/
-//       posts= loadPosts()
-//        showPosts(2)
-
-        // chkProblemInPosts()
-
-
-        pauseIt()
+        downloadAllArticles()
+       pauseIt()
     }
 
 
@@ -86,11 +75,8 @@ class SplashActivity : BaseActivity() {
                 if (value != null) {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
-
                              posts.add(post)
-
                     }
-
                     pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
                     retriveGradeMapFromSharPref()
                    savePosts()
@@ -99,17 +85,21 @@ class SplashActivity : BaseActivity() {
 
          return posts
     }
-
-    private fun showPost1(post: Post) {
-        // if (post.postNum==1000){
-//             if (post.postNum==901){
-//             if (post.postNum==4940){
-        logi("SplashActivity-->showPost1 123 (after reloading)    num=${post.postNum}  post.postMargin=${post.postMargin.joinToString()}")
-        // }
+    fun downloadAllArticles(): ArrayList<Article> {
+        articles.clear()
+         FirebaseFirestore.getInstance().collection(ARTICAL_REF)
+            .addSnapshotListener { value, error ->
+                if (value != null) {
+                    for (doc in value.documents) {
+                        val article= util.retriveArticleFromFirestore(doc)
+                        articles.add(article)
+                    }
+                       saveArticles()
+                    // showArticuls()
+                }
+            }
+        return articles
     }
-    /* private fun chkCondition():Boolean{
-
-     }*/
 
     fun savePosts() {
         pref.edit().putString(SHARPREF_GRADE_ZERO, "true").apply()
@@ -120,12 +110,27 @@ class SplashActivity : BaseActivity() {
             }
         }
    //     logi("SplashActivity 146   posts=${posts.joinToString()}")
-        pref.edit().remove(SHARPREF_POSTS_ARRAY).commit()
+        pref.edit().remove(SHARPREF_POSTS_ARRAY).apply()
         val editor = pref.edit()
         val gson = Gson()
         val json: String = gson.toJson(posts)
         editor.putString(SHARPREF_POSTS_ARRAY, json)
         editor.apply()
+    }
+    private fun saveArticles() {
+        showArticls()
+        pref.edit().remove(SHARPREF_ARTICLRS_ARRAY).apply()
+        val editor = pref.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(articles)
+        editor.putString(SHARPREF_ARTICLRS_ARRAY, json)
+        editor.apply()
+    }
+    private fun showArticls() {
+//        logi("SplashActivity 130    articles.size=${articles.size}")
+        for (index in 0 until articles.size){
+//            logi("SplashActivity 132     index=$index  articles[index].aricleNum=${articles[index].aricleNum}")
+        }
     }
 
     private fun loadPosts(): ArrayList<Post> {
@@ -135,6 +140,15 @@ class SplashActivity : BaseActivity() {
         val type: Type = object : TypeToken<ArrayList<Post>>() {}.type
         // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
         val arr: ArrayList<Post> = gson.fromJson(json, type)
+        return arr
+    }
+    private fun loadArticles(): ArrayList<Article> {
+        articles.clear()
+        val gson = Gson()
+        val json: String? = pref.getString(SHARPREF_ARTICLRS_ARRAY, null)
+        val type: Type = object : TypeToken<ArrayList<Article>>() {}.type
+        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
+        val arr: ArrayList<Article> = gson.fromJson(json, type)
         return arr
     }
 
@@ -299,13 +313,19 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun pauseIt() {
+       // logi("SplashActivity 314")
+      //  loadArticles()
+        //showArticuls()
         /*   val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
            logi("SplashActivity 251      sortSystem=$sortSystem")*/
         Handler().postDelayed(
             {
+              /*  loadArticles()
+                showArticuls()*/
                 if (!pressHelpBtn) {
-                    //chkProblemInPosts()
-                   startActivity(Intent(this, MainActivity::class.java))
+
+//                   startActivity(Intent(this, MainActivity::class.java))
+                      startActivity(Intent(this, ArticlesActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()

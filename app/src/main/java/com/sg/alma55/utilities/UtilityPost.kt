@@ -9,7 +9,16 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
+import com.sg.alma55.models.Article
 import com.sg.alma55.models.Comment
+import com.sg.alma55.utilities.Constants.ARTICAL_BACKGROUND
+import com.sg.alma55.utilities.Constants.ARTICAL_FONT_FAMILY
+import com.sg.alma55.utilities.Constants.ARTICAL_NUM
+import com.sg.alma55.utilities.Constants.ARTICAL_TEXT
+import com.sg.alma55.utilities.Constants.ARTICAL_TEXT_COLOR
+import com.sg.alma55.utilities.Constants.ARTICAL_TEXT_SIZE
+import com.sg.alma55.utilities.Constants.ARTICAL_TIMESTAMP
+import com.sg.alma55.utilities.Constants.ARTICAL_TITLE
 import com.sg.alma55.utilities.Constants.COMMEND_INDEX
 import com.sg.alma55.utilities.Constants.COMMEND_TIME_STAMP
 import com.sg.alma55.utilities.Constants.COMMENT_ID
@@ -360,21 +369,34 @@ class UtilityPost {
         val newComment = Comment(comId, postId, comText, comUserName, comUserId, timestamp, index)
         return newComment
     }
-
-
-    /* fun retrieveUserFromFirestore(snap: DocumentSnapshot?): User {
-
-         val uid = snap?.get(USER_ID).toString()
-         val fullName = snap?.get(USER_FULLNAME).toString()
-         val name = snap?.get(USER_USERNAME).toString()
-         val email = snap?.get(USER_EMAIL).toString()
-         val password = snap?.get(USER_PASSWORD).toString()
-         val dio = snap?.get(USER_BIO).toString()
-         val timestamp = snap?.getTimestamp(USER_TIME)
-
-         val newUser = User(uid, name, fullName, email, "", moto = dio)
-         return newUser
-     }*/
+    fun retriveArticleFromFirestore(doc: DocumentSnapshot?): Article {
+        val articleNum=doc?.getLong(ARTICAL_NUM)!!.toInt()
+        val articleText=doc?.getString(ARTICAL_TEXT).toString()
+        val articleTextSize=doc?.getLong(ARTICAL_TEXT_SIZE)!!.toInt()
+        val articleTitle=doc?.getString(ARTICAL_TITLE).toString()
+        val articleTextColor=doc?.getString(ARTICAL_TEXT_COLOR).toString()
+        val articleBackground=doc?.getString(ARTICAL_BACKGROUND).toString()
+        val articleFontFamily=doc?.getLong(ARTICAL_FONT_FAMILY)!!.toInt()
+        val timestamp = doc?.getTimestamp(ARTICAL_TIMESTAMP)
+       val newArticle=Article(
+           articleNum,
+           articleTitle,
+           articleText,
+           articleBackground,
+           articleTextColor,
+           articleTextSize,
+           articleFontFamily,
+           timestamp
+       )
+        return newArticle
+    }
+    /* var aricleNum:Int=0,
+     var aricleTitle:String="",
+     var aricleText:String="",
+    var articleBackground:String="",
+    var articleTextColor:String="",
+    var articleFontFamily:Int=0,
+    var timestamp: Timestamp?=null*/
 
 
     /*  fun retrivePostFromFirestore(snap: DocumentSnapshot?): Post {
@@ -534,13 +556,8 @@ class UtilityPost {
            for (index in 0 until str.size) {
                arr.add(str[index].trim().toInt())
            }
-        logi("UtilityPost 537   arr=${arr.joinToString()}   ")
-
-       /* for (index in 0..2) {
-            arr.add(222222)
-        }*/
-
-        return arr
+//        logi("UtilityPost 537   arr=${arr.joinToString()}   ")
+           return arr
     }
 
     private fun convertFromStringArrayToIntArry2(str: String): ArrayList<ArrayList<Int>> {
@@ -1212,6 +1229,8 @@ class UtilityPost {
             Log.d("gg", "${element1} ,${element2} ${element3},${element4}")
         }
     }
+
+
 
 
 }
