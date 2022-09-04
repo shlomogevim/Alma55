@@ -56,17 +56,16 @@ class SplashActivity : BaseActivity() {
         FirestoreClass().getUserDetails(this)
         initData()
         activateButtoms()
-   getHeadLines()
-      retriveComments()
-    downloadAllPost()
-
+        getHeadLines()
+        retriveComments()
+        downloadAllPost()
         downloadAllArticles()
-       pauseIt()
+        pauseIt()
     }
 
 
     fun downloadAllPost(): ArrayList<Post> {
-               posts.clear()
+        posts.clear()
         //    var post1=Post()
         //    showPosts(0)
         FirebaseFirestore.getInstance().collection(POST_REF)
@@ -75,26 +74,27 @@ class SplashActivity : BaseActivity() {
                 if (value != null) {
                     for (doc in value.documents) {
                         val post = util.retrivePostFromFirestore(doc)
-                             posts.add(post)
+                        posts.add(post)
                     }
                     pref.edit().putInt(SHARPREF_TOTAL_POSTS_SIZE, posts.size).apply()
                     retriveGradeMapFromSharPref()
-                   savePosts()
+                    savePosts()
                 }
             }
 
-         return posts
+        return posts
     }
+
     fun downloadAllArticles(): ArrayList<Article> {
         articles.clear()
-         FirebaseFirestore.getInstance().collection(ARTICAL_REF)
+        FirebaseFirestore.getInstance().collection(ARTICAL_REF)
             .addSnapshotListener { value, error ->
                 if (value != null) {
                     for (doc in value.documents) {
-                        val article= util.retriveArticleFromFirestore(doc)
+                        val article = util.retriveArticleFromFirestore(doc)
                         articles.add(article)
                     }
-                       saveArticles()
+                    saveArticles()
                     // showArticuls()
                 }
             }
@@ -109,7 +109,7 @@ class SplashActivity : BaseActivity() {
                 break
             }
         }
-   //     logi("SplashActivity 146   posts=${posts.joinToString()}")
+        //     logi("SplashActivity 146   posts=${posts.joinToString()}")
         pref.edit().remove(SHARPREF_POSTS_ARRAY).apply()
         val editor = pref.edit()
         val gson = Gson()
@@ -117,6 +117,7 @@ class SplashActivity : BaseActivity() {
         editor.putString(SHARPREF_POSTS_ARRAY, json)
         editor.apply()
     }
+
     private fun saveArticles() {
         showArticls()
         pref.edit().remove(SHARPREF_ARTICLRS_ARRAY).apply()
@@ -126,9 +127,10 @@ class SplashActivity : BaseActivity() {
         editor.putString(SHARPREF_ARTICLRS_ARRAY, json)
         editor.apply()
     }
+
     private fun showArticls() {
 //        logi("SplashActivity 130    articles.size=${articles.size}")
-        for (index in 0 until articles.size){
+        for (index in 0 until articles.size) {
 //            logi("SplashActivity 132     index=$index  articles[index].aricleNum=${articles[index].aricleNum}")
         }
     }
@@ -142,6 +144,7 @@ class SplashActivity : BaseActivity() {
         val arr: ArrayList<Post> = gson.fromJson(json, type)
         return arr
     }
+
     private fun loadArticles(): ArrayList<Article> {
         articles.clear()
         val gson = Gson()
@@ -313,19 +316,14 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun pauseIt() {
-       // logi("SplashActivity 314")
-      //  loadArticles()
-        //showArticuls()
-        /*   val sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
-           logi("SplashActivity 251      sortSystem=$sortSystem")*/
+
         Handler().postDelayed(
             {
-              /*  loadArticles()
-                showArticuls()*/
+
                 if (!pressHelpBtn) {
 
-//                   startActivity(Intent(this, MainActivity::class.java))
-                      startActivity(Intent(this, ArticlesActivity::class.java))
+                   startActivity(Intent(this, MainActivity::class.java))
+//                    startActivity(Intent(this, ArticlesActivity::class.java))
 //                   startActivity(Intent(this, HelpActivity::class.java))
                 }
 //           }, delayInMicroSecond.toLong()

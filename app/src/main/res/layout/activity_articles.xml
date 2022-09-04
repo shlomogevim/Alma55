@@ -1,4 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_ui"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+
+    android:keepScreenOn="true"
+
+    tools:context=".aricles.ArticlesActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/articlesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+          <!--  <Button
+                android:id="@+id/btn_atora"
+                style="@style/ButtonFamily10"
+                android:text=" התורה "/>
+            <Button
+                android:id="@+id/btn_yakam"
+                style="@style/ButtonFamily10"
+                android:text="יחידת המודעות "/>
+            <Button
+                android:id="@+id/btn_nachman1"
+                style="@style/ButtonFamily10"
+                android:text="שיחות עם נחמן" />
+            <Button
+                android:id="@+id/btn_olamon"
+                style="@style/ButtonFamily10"
+                android:text="עולמון " />
+            <Button
+                android:id="@+id/btn_zeShi"
+                style="@style/ButtonFamily10"
+                android:text="זה ש..."  />
+            <Button
+                android:id="@+id/btn_lifePoint"
+                style="@style/ButtonFamily10"
+                android:text="נקודת היווצרות החיים"/>-->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
+
+
+
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,7 +79,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <Button
                 android:id="@+id/btn_atora"
                 style="@style/ButtonFamily10"
@@ -35,7 +97,7 @@
             <Button
                 android:id="@+id/btn_nachman1"
                 style="@style/ButtonFamily10"
-                android:text="נחמן - א "
+                android:text="שיחות עם נחמן"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_yakam" />
@@ -46,6 +108,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_nachman1" />
+            <Button
+                android:id="@+id/btn_zeShi"
+                style="@style/ButtonFamily10"
+                android:text="זה ש..."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_olamon" />
+            <Button
+                android:id="@+id/btn_lifePoint"
+                style="@style/ButtonFamily10"
+                android:text="נקודת היווצרות החיים"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_zeShi" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -53,3 +129,5 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+-->

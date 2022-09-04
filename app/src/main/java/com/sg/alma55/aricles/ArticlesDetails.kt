@@ -24,33 +24,41 @@ class ArticlesDetails : BaseActivity() {
     private var textColor = ""
     private var texti = ""
     lateinit var gson: Gson
-    lateinit var   pref: SharedPreferences
-    lateinit var currentArticle:Article
+    lateinit var pref: SharedPreferences
+    lateinit var currentArticle: Article
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityArticlesDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        pref = getSharedPreferences(Constants.SHARPREF_ALMA,MODE_PRIVATE)
+        pref = getSharedPreferences(Constants.SHARPREF_ALMA, MODE_PRIVATE)
         gson = Gson()
-        articles=loadArticles()
+        articles = loadArticles()
 
         articlesIndex = intent.getIntExtra(Constants.ARTICLES_DETALES_INDEX, 0)
-        currentArticle=findArticle(articlesIndex)
-        draw_current_articles()
+        currentArticle = findArticle(articlesIndex)
+        draw_current_article()
 
-        }
+    }
 
-    private fun draw_current_articles() {
-        backGroundColor=currentArticle.articleBackground
-        textColor=currentArticle.articleTextColor
-        texti=currentArticle.aricleText
+    private fun draw_current_article() {
+        backGroundColor = currentArticle.articleBackground
+        textColor = currentArticle.articleTextColor
+        texti = currentArticle.aricleText
 
         binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
         binding.tvArticle.setTextColor(Color.parseColor(textColor))
-        binding.tvArticle.text=texti
+        binding.tvTitle.setTextColor(Color.parseColor(textColor))
+      binding.tvTitle.text = setTextTitle()
+        binding.tvArticle.text = texti
     }
-    private fun loadArticles(): ArrayList<Article> {
+
+    private fun setTextTitle(): String =
+        "---------------------------------\n" +
+                "${currentArticle.aricleTitle}\n" +
+                "--------------------------------- "
+
+    fun loadArticles(): ArrayList<Article> {
         articles.clear()
         val json: String? = pref.getString(Constants.SHARPREF_ARTICLRS_ARRAY, null)
         val type: Type = object : TypeToken<ArrayList<Article>>() {}.type
@@ -58,6 +66,7 @@ class ArticlesDetails : BaseActivity() {
         val arr: ArrayList<Article> = gson.fromJson(json, type)
         return arr
     }
+
     private fun findArticle(key: Int): Article {
         for (art in articles) {
             if (art.aricleNum == key) {
@@ -117,7 +126,6 @@ class ArticlesDetails : BaseActivity() {
               backGroundColor="#0A174E"
               textColor="#F5D042"
           }*/
-
 
 
 /* private fun getText1() {

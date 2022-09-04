@@ -329,7 +329,6 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
        shape.setColor(Color.parseColor("#$tra${post.postBackground}"))
        textView.background = shape
        val fontAddress = helper.getFamilyFont(post.postFontFamily)
-
        textView.typeface = ResourcesCompat.getFont(context, fontAddress)
        textView.setPadding(
            post.postPadding[0].toPx(),

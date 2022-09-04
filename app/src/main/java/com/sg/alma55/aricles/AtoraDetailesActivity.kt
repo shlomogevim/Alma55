@@ -22,41 +22,50 @@ class AtoraDetailesActivity : BaseActivity() {
     private var textColor = ""
     private var texti = ""
     lateinit var gson: Gson
-    lateinit var   pref: SharedPreferences
-    lateinit var currentArticle:Article
+    lateinit var pref: SharedPreferences
+    lateinit var currentArticle: Article
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAtoraDetailesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-       pref = getSharedPreferences(Constants.SHARPREF_ALMA, MODE_PRIVATE)
+        pref = getSharedPreferences(Constants.SHARPREF_ALMA, MODE_PRIVATE)
         gson = Gson()
-      loadArticles()
-      articlesIndex = intent.getIntExtra(Constants.ARTICLES_DETALES_INDEX, 0)
-        currentArticle=findArticle(articlesIndex)
-      draw_current_articles()
+        loadArticles()
+        articlesIndex = intent.getIntExtra(Constants.ARTICLES_DETALES_INDEX, 0)
+        currentArticle = findArticle(articlesIndex)
+        draw_current_articles()
     }
+
     private fun draw_current_articles() {
-        backGroundColor=currentArticle.articleBackground
-        textColor=currentArticle.articleTextColor
-        texti=currentArticle.aricleText
+        backGroundColor = currentArticle.articleBackground
+        textColor = currentArticle.articleTextColor
+        texti = currentArticle.aricleText
 
         binding.mainAtoraBackground.setBackgroundColor(Color.parseColor(backGroundColor))
         binding.tvAtoraArticle.setTextColor(Color.parseColor(textColor))
-        binding.tvAtoraArticle.text=texti
+        binding.titleAtoraArticle.setTextColor(Color.parseColor(textColor))
+        binding.titleAtoraArticle.text=setTextTitle()
+        binding.tvAtoraArticle.text = texti
     }
 
+    private fun setTextTitle(): String =
+        "---------------------------------\n" +
+                "${currentArticle.aricleTitle}\n" +
+                "--------------------------------- "
 
-    private fun loadArticles(){
+
+private fun loadArticles() {
         articles.clear()
         val gson = Gson()
-        val  pref = getSharedPreferences(Constants.SHARPREF_ALMA,MODE_PRIVATE)
+        val pref = getSharedPreferences(Constants.SHARPREF_ALMA, MODE_PRIVATE)
         val json: String? = pref.getString(Constants.SHARPREF_ARTICLRS_ARRAY, null)
         val type: Type = object : TypeToken<ArrayList<Article>>() {}.type
         // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
         articles = gson.fromJson(json, type)
     }
+
     private fun findArticle(key: Int): Article {
         for (art in articles) {
             if (art.aricleNum == key) {
@@ -66,6 +75,7 @@ class AtoraDetailesActivity : BaseActivity() {
         return Article()
     }
 }
+
 
 /*  private fun activateText() {
        binding.tvAtoraArticle.text = application.assets.open(fileName).bufferedReader().use {

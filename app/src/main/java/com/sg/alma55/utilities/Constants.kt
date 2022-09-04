@@ -105,10 +105,6 @@ object Constants {
     const val USER_ID = "userId"
     const val USER_GRADE_AR="userGradeAr"
 
-
-
-
-
     const val USER_BIO = "user bio"
 
     const val USER_EXSRTA = "user_exstra"
@@ -130,8 +126,6 @@ object Constants {
     const val DIALOG_EXSTRA = "dealogexstra"
     const val HELP_EXPLANATION_INDEX="helpExplationIndex"
     const val ARTICLES_DETALES_INDEX="articlesDitalesIndex"
-   // const val ATORA_DETALES_INDEX="atoraDitalesIndex"
-
 
     const val ARTICAL_MODE="articalMode"
     const val ARTICAL_REF="Articles"
@@ -144,8 +138,6 @@ object Constants {
     const val ARTICAL_FONT_FAMILY="articalFontFamily"
     const val ARTICAL_TIMESTAMP="articalTimestamp"
    const val SHARPREF_ARTICLRS_ARRAY="sharprefArticulesArray"
-
-
 
 
 
