@@ -82,8 +82,8 @@ class ArticlesActivity : BaseActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-           binding.articlesLayout.addView(button,layoutParam)
-
+        // correct padding in the firestore if needed
+              binding.articlesLayout.addView(button,layoutParam)
     }
 
     private fun setItOnclick(button: Button) {

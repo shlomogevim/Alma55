@@ -154,6 +154,7 @@ class DrawGeneralPost() : BaseActivity() {
         val textView8 = layout.findViewById<TextView>(R.id.tv8)
         val textView9 = layout.findViewById<TextView>(R.id.tv9)
         val textView10 = layout.findViewById<TextView>(R.id.tv10)
+        val textView11 = layout.findViewById<TextView>(R.id.tv11)
         var textView = layout.findViewById<TextView>(R.id.tv10)
         val image = layout.findViewById<ImageView>(R.id.pagerImage)
         val ken = layout.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
@@ -168,6 +169,7 @@ class DrawGeneralPost() : BaseActivity() {
         textView8.text = ""
         textView9.text = ""
         textView10.text = ""
+        textView11.text = ""
 
         if (movingBackgroundMode== TRUE){
             ken.load(post.imageUri){
@@ -180,7 +182,7 @@ class DrawGeneralPost() : BaseActivity() {
             image.load(post.imageUri){
                 crossfade(true)
                 crossfade(1000)
-                transformations(RoundedCornersTransformation(30f))
+//                transformations(RoundedCornersTransformation(30f))      //    *********
             }
             ken.pause()
         }
@@ -198,6 +200,7 @@ class DrawGeneralPost() : BaseActivity() {
                 8 -> textView8
                 9 -> textView9
                 10 -> textView10
+                11 -> textView11
                 else -> textView1
             }
 
@@ -320,7 +323,11 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
        }
        val tra = helper.getTransfo(post.postTransparency)
        val shape = GradientDrawable()
-       shape.cornerRadius = post.postRadiuas.toPx().toFloat()
+
+
+
+//       shape.cornerRadius = post.postRadiuas.toPx().toFloat()      //   **************
+
 // util.logi("Draw GeneralPost 164  post.postBackground= ${post.postBackground}")
 
        post.postBackground = post.postBackground.replace("#", "")
