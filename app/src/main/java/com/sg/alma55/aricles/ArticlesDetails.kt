@@ -49,7 +49,7 @@ class ArticlesDetails : BaseActivity() {
         binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
         binding.tvArticle.setTextColor(Color.parseColor(textColor))
         binding.tvTitle.setTextColor(Color.parseColor(textColor))
-      binding.tvTitle.text = setTextTitle()
+       binding.tvTitle.text = setTextTitle()
         binding.tvArticle.text = texti
     }
 

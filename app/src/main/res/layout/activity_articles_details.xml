@@ -8,6 +8,7 @@
      tools:context=".aricles.ArticlesDetails"
 
     android:keepScreenOn="true"  >
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"

@@ -22,7 +22,8 @@ data class Post(
     var postRadiuas:Int=0,
     var timestamp: Timestamp?=null,
     var lineSpacing: Double? =1.4,
-    var grade:Int=0
+    var grade:Int=0,
+    var videoUrl:String="dGw3w_njQ4g"
 )
 
 

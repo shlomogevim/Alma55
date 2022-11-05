@@ -68,4 +68,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0'
+
 }

@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -18,10 +19,12 @@ import com.google.gson.Gson
 import com.sg.alma50a.post_drawing.DrawPostCenter
 import com.sg.alma55.R
 import com.sg.alma55.activities.PostDetailesActivity
+import com.sg.alma55.activities_tt.VideoActivity
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.post_drawing.DrawGeneralPost
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.Constants.CURRENT_URL
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST
@@ -63,6 +66,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
         val layout = itemView?.findViewById<ConstraintLayout>(R.id.itemLayout)
         val image = itemView?.findViewById<ImageView>(R.id.pagerImage)
         val ken = itemView.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
+        val postVideoBtn=itemView?.findViewById<Button>(R.id.videoBtn)
 
 /*  fun bindImage(post: Post) {
             DrawGeneralPost().drawPost(context, post, layout)  // onClick include in here
@@ -100,13 +104,26 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
         fun bindImage(post: Post) {
           DrawGeneralPost().drawPost(context, post, layout)
-            image.setOnClickListener {
+          image.setOnClickListener {
                 val editor = pref.edit()
                 val gson = Gson()
                 val json: String = gson.toJson(post)
                 editor.putString(SHARPREF_CURRENT_POST, json)
                 editor.apply()
                 context.startActivity(Intent(context, PostDetailesActivity::class.java))
+
+            }
+
+           postVideoBtn.setOnClickListener {
+               val editor = pref.edit()
+               val gson = Gson()
+               val json: String = gson.toJson(post)
+               editor.putString(SHARPREF_CURRENT_POST, json)
+               editor.apply()
+//                 val intent = Intent(context, VideoActivity::class.java)
+//                 intent.putExtra(CURRENT_URL, post.videoUrl)
+//                 context.startActivity(intent)
+               context.startActivity(Intent(context, VideoActivity::class.java))
             }
         }
 

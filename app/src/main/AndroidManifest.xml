@@ -13,18 +13,17 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Alma55">
         <activity
+            android:name=".activities_tt.VideoExplantionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities_tt.VideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".aricles.AtoraDetailesActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".aricles.AtoraActivity"
-            android:exported="true">
-
-
-
-
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".aricles.ArticlesDetails"
             android:exported="false" />
@@ -76,20 +75,11 @@
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
-
-
-
-
-
         </activity>
         <activity
             android:name=".activities.MainActivity"

@@ -7,10 +7,7 @@ import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sg.alma55.activities_tt.CommentsScreenActivity
-import com.sg.alma55.activities_tt.GeneralCommentActivity
-import com.sg.alma55.activities_tt.GradePostActivity
-import com.sg.alma55.activities_tt.SplashDelayActivity
+import com.sg.alma55.activities_tt.*
 import com.sg.alma55.aricles.ArticlesActivity
 import com.sg.alma55.databinding.ActivitySetupBinding
 import com.sg.alma55.modeles.Post
@@ -82,6 +79,10 @@ class SetupActivity : BaseActivity() {
             startActivity(Intent(this, ArticlesActivity::class.java))
             finish()
         }
+//        binding.btnGetVideo.setOnClickListener {
+//            startActivity(Intent(this, VideoActivity::class.java))
+//            finish()
+//        }
         binding.btnGradePost.setOnClickListener {
             startActivity(Intent(this, GradePostActivity::class.java))
             finish()

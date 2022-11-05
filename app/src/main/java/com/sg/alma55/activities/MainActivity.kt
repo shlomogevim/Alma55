@@ -1,6 +1,7 @@
 package com.sg.alma55.activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sg.alma55.R
+import com.sg.alma55.activities_tt.VideoActivity
 import com.sg.alma55.adapters.PostAdapter
 import com.sg.alma55.databinding.ActivityMainBinding
 import com.sg.alma55.modeles.Post
@@ -40,7 +42,9 @@ class MainActivity : BaseActivity() {
     lateinit var pref: SharedPreferences
     lateinit var gson: Gson
     var sortSystem = "NoValue"
+  //  lateinit var currentPost: Post
     var currentPostNum = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +55,35 @@ class MainActivity : BaseActivity() {
         rvPosts = binding.rvPosts
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
+
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
        // downloadAllPost()
 //logi("MainActivity 53     onCreate      sortSystem=$sortSystem")
         FirestoreClass().getUserDetails(this)
         setSortSystemBackground()
 
+       // setVideoBtn()
+
+
+
+    }
+
+
+   /* private fun setVideoBtn() {
+        val btn=binding.videoBtn
+        btn.setOnClickListener {
+            currentPost = loadCurrentPost()
+            val intent = Intent(this, VideoActivity::class.java)
+            startActivity(intent)
+        }
+    }*/
+
+    fun loadCurrentPost(): Post {
+        val gson = Gson()
+        val json: String? = pref.getString(Constants.SHARPREF_CURRENT_POST, null)
+        val type: Type = object : TypeToken<Post>() {}.type
+        val post: Post = gson.fromJson(json, type)
+        return post
     }
 
     override fun onResume() {

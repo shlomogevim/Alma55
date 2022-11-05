@@ -33,6 +33,9 @@
     <color name="colorDarkGrey">#878787</color>
 
     <color name="backgroundTimePublish">#2DD3F4</color>
-    <color name="backgroundRecommended">#6fc27c</color>
+      <color name="backgroundRecommended">#6fc27c</color>
     <color name="backgroundGrade">#F5D042</color>
+
+    <color name="sea">#2DD3F4</color>
+    <color name="sea_dark">#1A7182</color>
 </resources>

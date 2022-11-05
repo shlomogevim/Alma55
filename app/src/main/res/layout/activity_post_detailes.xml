@@ -64,6 +64,7 @@
         android:layout_marginRight="2dp"
        android:fontFamily="@font/a103_gadi_almog_regular_aaa"
         android:text="עזרה"  />
+
     <ToggleButton
         android:id="@+id/movingModeBtn"
         style="@style/AppTheme.Button1"
@@ -77,8 +78,7 @@
         android:fontFamily="@font/a103_gadi_almog_regular_aaa"
         android:textColor="@color/white"
         android:textOff="סטטי"
-        android:textOn="דינמי"
-        />
+        android:textOn="דינמי" />
 
 
     <TextView

@@ -11,21 +11,29 @@
 
     tools:context=".activities.MainActivity"  >
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-
-
-
-
-
-
+  <!--  <Button
+        android:id="@+id/videoBtn"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cornerRadius="20dp"
+        app:rippleColor="@color/black"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="0dp"
+        android:backgroundTint="@color/sea"
+         />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
