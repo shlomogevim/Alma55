@@ -24,7 +24,6 @@ import com.sg.alma55.modeles.Post
 import com.sg.alma55.post_drawing.DrawGeneralPost
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
-import com.sg.alma55.utilities.Constants.CURRENT_URL
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST

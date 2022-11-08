@@ -44,6 +44,7 @@ import com.sg.alma55.utilities.Constants.POST_TEXT_LOCATION
 import com.sg.alma55.utilities.Constants.POST_TEXT_SIZE
 import com.sg.alma55.utilities.Constants.POST_TIME_STAMP
 import com.sg.alma55.utilities.Constants.POST_TRANPARECY
+import com.sg.alma55.utilities.Constants.POST_VIDEO_TEXT
 import com.sg.alma55.utilities.Constants.POST_VIDEO_URL
 import com.sg.alma55.utilities.Constants.USER_BIO
 import com.sg.alma55.utilities.Constants.USER_EMAIL
@@ -482,6 +483,7 @@ class UtilityPost {
         val postLineSpacing = snap?.getDouble(POST_LINE_SPACING)
         //val postLineSpacing = 1.4f
         val postVideoUrl = snap?.getString(POST_VIDEO_URL).toString()
+        val postVideoText= snap?.getString(POST_VIDEO_TEXT).toString()
 
         val newPost1 = Post(
             postId,
@@ -501,7 +503,8 @@ class UtilityPost {
             timestamp,
             postLineSpacing,
             0,
-            postVideoUrl
+            postVideoUrl,
+            postVideoText
         )
         //   logi("UtilityPost 486   postNum=${postNum}")
         return newPost1

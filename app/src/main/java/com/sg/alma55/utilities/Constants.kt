@@ -53,11 +53,7 @@ object Constants {
     const val POST_TIME_STAMP = "post_time_stamp"
     const val POST_LINE_SPACING = "post_line_spacing"
     const val  POST_VIDEO_URL="post_video_url"
-
-    const val CURRENT_URL="current_url"
-
-
-  //  data[POST_VIDEO_URL]=videoUrl
+    const val  POST_VIDEO_TEXT="post_video_text"
 
 
     const val POST_RECOMMENDED = "post_recommended"

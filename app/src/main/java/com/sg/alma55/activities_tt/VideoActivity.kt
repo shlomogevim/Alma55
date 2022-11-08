@@ -19,7 +19,6 @@ import com.sg.alma55.databinding.ActivityVedioBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
-import com.sg.alma55.utilities.Constants.CURRENT_URL
 import java.lang.reflect.Type
 
 class VideoActivity : BaseActivity() {

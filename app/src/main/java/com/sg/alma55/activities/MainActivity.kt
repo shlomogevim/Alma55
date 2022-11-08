@@ -86,6 +86,7 @@ class MainActivity : BaseActivity() {
         return post
     }
 
+
     override fun onResume() {
         super.onResume()
 //       logi("MainActivity 63   onResume        sortSystem$sortSystem")
