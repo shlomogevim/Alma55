@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import com.google.gson.Gson
@@ -19,23 +20,25 @@ import com.sg.alma55.databinding.ActivityVedioBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.Constants.NO_VALUE
 import java.lang.reflect.Type
 
 class VideoActivity : BaseActivity() {
     private lateinit var binding: ActivityVedioBinding
- //   private var url=""
+
+    //   private var url=""
     lateinit var pref: SharedPreferences
     lateinit var currentPost: Post
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityVedioBinding.inflate(layoutInflater)
-       window.setFlags(
-           WindowManager.LayoutParams.FLAG_FULLSCREEN,
-           WindowManager.LayoutParams.FLAG_FULLSCREEN
-       )
+        binding = ActivityVedioBinding.inflate(layoutInflater)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(binding.root)
 
-       setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
         pref = getSharedPreferences(Constants.SHARPREF_ALMA, Context.MODE_PRIVATE)
         currentPost = loadCurrentPost()
@@ -44,15 +47,21 @@ class VideoActivity : BaseActivity() {
 
         lifecycle.addObserver(binding.youtubePlayerView)
 
-        binding.youtubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        binding.youtubePlayerView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                   val url=currentPost.videoUrl
-                   youTubePlayer.loadVideo(url, 0f)
+                val url = currentPost.videoUrl
+                youTubePlayer.loadVideo(url, 0f)
             }
         })
-        binding.videoExplenationBtn.setOnClickListener {
-            startActivity(Intent(this,VideoExplantionActivity::class.java))
-            finish()
+//        logi("gg","VideoActivity 56 ==>  postNum=${currentPost.postNum} videoUrl=${currentPost.videoUrl}")
+        if ( currentPost.videoUrl == NO_VALUE ) {
+            binding.videoExplenationBtn.visibility = View.GONE
+        } else {
+            binding.videoExplenationBtn.setOnClickListener {
+                startActivity(Intent(this, VideoExplantionActivity::class.java))
+                finish()
+            }
         }
     }
 

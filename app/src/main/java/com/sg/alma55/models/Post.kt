@@ -2,6 +2,7 @@ package com.sg.alma55.modeles
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp
+import com.sg.alma55.utilities.Constants.NO_VALUE
 import kotlinx.parcelize.Parcelize
 
 
@@ -23,8 +24,8 @@ data class Post(
     var timestamp: Timestamp?=null,
     var lineSpacing: Double? =1.4,
     var grade:Int=0,
-    var videoUrl:String="",
-    var videoText:String=""
+    var videoUrl:String=NO_VALUE,
+    var videoText:String=NO_VALUE
 )
 
 

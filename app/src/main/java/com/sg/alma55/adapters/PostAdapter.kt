@@ -102,8 +102,8 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
 
         fun bindImage(post: Post) {
-          DrawGeneralPost().drawPost(context, post, layout)
-          image.setOnClickListener {
+            DrawGeneralPost().drawPost(context, post, layout)
+            image.setOnClickListener {
                 val editor = pref.edit()
                 val gson = Gson()
                 val json: String = gson.toJson(post)
@@ -112,20 +112,22 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
                 context.startActivity(Intent(context, PostDetailesActivity::class.java))
 
             }
-
-           postVideoBtn.setOnClickListener {
-               val editor = pref.edit()
-               val gson = Gson()
-               val json: String = gson.toJson(post)
-               editor.putString(SHARPREF_CURRENT_POST, json)
-               editor.apply()
+            if (post.videoText == Constants.NO_VALUE) {
+                postVideoBtn.visibility=View.GONE
+            } else {
+                postVideoBtn.setOnClickListener {
+                    val editor = pref.edit()
+                    val gson = Gson()
+                    val json: String = gson.toJson(post)
+                    editor.putString(SHARPREF_CURRENT_POST, json)
+                    editor.apply()
 //                 val intent = Intent(context, VideoActivity::class.java)
 //                 intent.putExtra(CURRENT_URL, post.videoUrl)
 //                 context.startActivity(intent)
-               context.startActivity(Intent(context, VideoActivity::class.java))
+                    context.startActivity(Intent(context, VideoActivity::class.java))
+                }
             }
         }
-
     }
 
 }

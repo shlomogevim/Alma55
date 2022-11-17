@@ -20,6 +20,7 @@ import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
 import com.sg.alma55.utilities.*
+import com.sg.alma55.utilities.Constants.NO_VALUE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_COMMENTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
@@ -44,7 +45,6 @@ class MainActivity : BaseActivity() {
     var sortSystem = "NoValue"
   //  lateinit var currentPost: Post
     var currentPostNum = 0
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,22 +93,40 @@ class MainActivity : BaseActivity() {
         posts.clear()
       //  downloadAllPost()
       posts = loadPosts()
+//          setNoValue()
 
-        sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
-        currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
+          sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
+          currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
 
-//        val itZero = pref.getString(SHARPREF_GRADE_ZERO, "toto").toString()
-//        logi("SplashActivity  70     itZero=$itZero")
+  //        val itZero = pref.getString(SHARPREF_GRADE_ZERO, "toto").toString()
+  //        logi("SplashActivity  70     itZero=$itZero")
 
-        FirestoreClass().getUserDetails(this)
-        setSortSystemBackground()
-        sortPosts()
-        if (currentPostNum == 0) {
-            currentPostNum = posts[0].postNum
-        }
-        create_rvPost()
-        moveIt()
+          FirestoreClass().getUserDetails(this)
+          setSortSystemBackground()
+          sortPosts()
+          if (currentPostNum == 0) {
+              currentPostNum = posts[0].postNum
+          }
+          create_rvPost()
+          moveIt()
     }
+
+    private fun setNoValue() {
+         /*for (item in posts){
+
+//             if (item.postNum==1001) {
+
+                // item.videoUrl= NO_VALUE
+                if (item.videoUrl.equals(null)) item.videoUrl= "popi"
+
+                 logi(                     "gg",
+                     "MainActivity 117 ==>  postNum=${item.postNum} videoUrl=${item.videoUrl}"
+                 )
+//             }
+
+         }*/
+    }
+
     fun getCurrentUser(user: User) {
         currentUser=user
     }

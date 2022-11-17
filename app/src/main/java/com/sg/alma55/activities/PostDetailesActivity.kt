@@ -69,7 +69,7 @@ class PostDetailesActivity : BaseActivity(), CommentsOptionClickListener {
 
         pref.edit().putInt(SHARPREF_CURRENT_POST_NUM, currentPost.postNum).apply()
 
-        val moving = pref.getString(SHARPREF_MOVING_BACKGROUND, TRUE)
+        val moving = pref.getString(SHARPREF_MOVING_BACKGROUND, FALSE)
         binding.movingModeBtn.isChecked = moving == TRUE
        // logi("PostDetailActivity 75      binding.movingModeBtn.isChecked=${binding.movingModeBtn.isChecked}     ")
         drawHeadline()

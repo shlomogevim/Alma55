@@ -55,6 +55,8 @@ object Constants {
     const val  POST_VIDEO_URL="post_video_url"
     const val  POST_VIDEO_TEXT="post_video_text"
 
+    const val NO_VALUE="no_value"
+
 
     const val POST_RECOMMENDED = "post_recommended"
 

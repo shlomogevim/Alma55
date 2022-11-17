@@ -11,6 +11,7 @@ import com.sg.alma55.databinding.ActivityVideoExplantionBinding
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.Constants.NO_VALUE
 import java.lang.reflect.Type
 
 class VideoExplantionActivity : BaseActivity() {
@@ -28,10 +29,7 @@ class VideoExplantionActivity : BaseActivity() {
     private fun drawCurrentVideoComment() {
         val backGroundColor = "#0A174E"
        val textColor = "#F5D042"
-
-
-//        val  texti = "אין עדיין הערות על השיר הזה"
-        val  texti = currentPost.videoText
+       val  texti = currentPost.videoText
 
         binding.mainBackground.setBackgroundColor(Color.parseColor(backGroundColor))
         binding.tvArticleVideo.setTextColor(Color.parseColor(textColor))
