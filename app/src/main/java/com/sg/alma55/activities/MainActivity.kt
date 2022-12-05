@@ -20,11 +20,13 @@ import com.sg.alma55.modeles.Post
 import com.sg.alma55.modeles.User
 import com.sg.alma55.models.Comment
 import com.sg.alma55.utilities.*
+import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.NO_VALUE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_COMMENTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST_NUM
 import com.sg.alma55.utilities.Constants.SHARPREF_GRADE_ZERO
+import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.SHARPREF_POSTS_ARRAY
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_GRADE
 import com.sg.alma55.utilities.Constants.SHARPREF_SORT_BY_RECOMMENDED
@@ -54,6 +56,9 @@ class MainActivity : BaseActivity() {
         gson = Gson()
         rvPosts = binding.rvPosts
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
+
+        pref.edit().putString(SHARPREF_MOVING_BACKGROUND, FALSE).apply()
+
         currentPostNum = pref.getInt(SHARPREF_CURRENT_POST_NUM, 0)
 
         sortSystem = pref.getString(SHARPREF_SORT_SYSTEM, SHARPREF_SORT_BY_TIME_PUBLISH).toString()
@@ -196,29 +201,7 @@ class MainActivity : BaseActivity() {
         val arr: ArrayList<Post> = gson.fromJson(json, type)
         return arr
     }
-   /* fun downloadAllPost(): ArrayList<Post> {
-        posts.clear()
-        FirebaseFirestore.getInstance().collection(Constants.POST_REF)
-            // .orderBy(Constants.POST_TIME_STAMP, Query.Direction.DESCENDING)
-            .addSnapshotListener { value, error ->
-                if (value != null) {
-                    for (doc in value.documents) {
-                        val post = util.retrivePostFromFirestore(doc)
-                        posts.add(post)
-                        showPost(post)
-                    }
 
-                }
-            }
-        return posts
-    }*/
-  /*  private fun showPost(post:Post) {
-        if (post.postNum==1000){
-//             if (post.postNum==901){
-//             if (post.postNum==4940){
-            logi("MainActivity  171    post.postMargin=${post.postMargin.joinToString()}")
-        }
-    }*/
 
     private fun moveIt() {
         //logi("MainActivity 129   currentPostNum=$currentPostNum")
@@ -234,18 +217,5 @@ class MainActivity : BaseActivity() {
             }, 100
         )
     }
-
-
-
-    fun loadComments(): ArrayList<Comment> {
-        comments.clear()
-        val gson = Gson()
-        val json: String? = pref.getString(SHARPREF_COMMENTS_ARRAY, null)
-        val type: Type = object : TypeToken<ArrayList<Comment>>() {}.type
-        // val type = object : TypeToken<HashMap<Int?, Int?>?>() {}.type
-        val arr: ArrayList<Comment> = gson.fromJson(json, type)
-        return arr
-    }
-
 
 }

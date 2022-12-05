@@ -26,9 +26,13 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.TextViewCompat
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.sg.alma55.R
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.utilities.BaseActivity
+import com.sg.alma55.utilities.Constants.AUDIO_POSITION
 import com.sg.alma55.utilities.Constants.CONSTANT
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.NO_BOTTOM
@@ -47,6 +51,7 @@ class DrawGeneralPost() : BaseActivity() {
     fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
     val helper = FontFamilies()
     lateinit var pref: SharedPreferences
+    var interval=0f
 
     var constraintSet = ConstraintSet()
 
@@ -55,83 +60,83 @@ class DrawGeneralPost() : BaseActivity() {
         pref = getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
     }
 
-  /*  fun drawPostFire(context: Context, post: Post, layout: ConstraintLayout) {
+    /*  fun drawPostFire(context: Context, post: Post, layout: ConstraintLayout) {
 
-        val pref = context.getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-        var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, FALSE)
+          val pref = context.getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
+          var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, FALSE)
 
-        //util.logi("DrawGeneralPost 100      \n     =========>  /n post=$post")
-        val textView1 = layout.findViewById<TextView>(R.id.tv1Fire)
-        val textView2 = layout.findViewById<TextView>(R.id.tv2Fire)
-        val textView3 = layout.findViewById<TextView>(R.id.tv3Fire)
-        val textView4 = layout.findViewById<TextView>(R.id.tv4Fire)
-        val textView5 = layout.findViewById<TextView>(R.id.tv5Fire)
-        val textView6 = layout.findViewById<TextView>(R.id.tv6Fire)
-        val textView7 = layout.findViewById<TextView>(R.id.tv7Fire)
-        val textView8 = layout.findViewById<TextView>(R.id.tv8Fire)
-        val textView9 = layout.findViewById<TextView>(R.id.tv9Fire)
-        val textView10 = layout.findViewById<TextView>(R.id.tv10Fire)
-        var textView = layout.findViewById<TextView>(R.id.tv10Fire)
-        val image = layout.findViewById<ImageView>(R.id.pagerImageFire)
-        val ken = layout.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
+          //util.logi("DrawGeneralPost 100      \n     =========>  /n post=$post")
+          val textView1 = layout.findViewById<TextView>(R.id.tv1Fire)
+          val textView2 = layout.findViewById<TextView>(R.id.tv2Fire)
+          val textView3 = layout.findViewById<TextView>(R.id.tv3Fire)
+          val textView4 = layout.findViewById<TextView>(R.id.tv4Fire)
+          val textView5 = layout.findViewById<TextView>(R.id.tv5Fire)
+          val textView6 = layout.findViewById<TextView>(R.id.tv6Fire)
+          val textView7 = layout.findViewById<TextView>(R.id.tv7Fire)
+          val textView8 = layout.findViewById<TextView>(R.id.tv8Fire)
+          val textView9 = layout.findViewById<TextView>(R.id.tv9Fire)
+          val textView10 = layout.findViewById<TextView>(R.id.tv10Fire)
+          var textView = layout.findViewById<TextView>(R.id.tv10Fire)
+          val image = layout.findViewById<ImageView>(R.id.pagerImageFire)
+          val ken = layout.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
 
-        textView1.text = ""
-        textView2.text = ""
-        textView3.text = ""
-        textView4.text = ""
-        textView5.text = ""
-        textView6.text = ""
-        textView7.text = ""
-        textView8.text = ""
-        textView9.text = ""
-        textView10.text = ""
+          textView1.text = ""
+          textView2.text = ""
+          textView3.text = ""
+          textView4.text = ""
+          textView5.text = ""
+          textView6.text = ""
+          textView7.text = ""
+          textView8.text = ""
+          textView9.text = ""
+          textView10.text = ""
 
-        //util.logi("DrawGeneralPost 110     \n     =========>  /n layout=$layout")
+          //util.logi("DrawGeneralPost 110     \n     =========>  /n layout=$layout")
 
-        //  image.load(post.imageUri)
+          //  image.load(post.imageUri)
 
-        if (movingBackgroundMode == TRUE) {
-            ken.load(post.imageUri) {
-                crossfade(true)
-                crossfade(1000)
-                transformations(RoundedCornersTransformation(30f))
-            }
-            ken.resume()
-        } else {
-            image.load(post.imageUri) {
-                crossfade(true)
-                crossfade(1000)
-                transformations(RoundedCornersTransformation(30f))
-            }
-            ken.pause()
-        }
+          if (movingBackgroundMode == TRUE) {
+              ken.load(post.imageUri) {
+                  crossfade(true)
+                  crossfade(1000)
+                  transformations(RoundedCornersTransformation(30f))
+              }
+              ken.resume()
+          } else {
+              image.load(post.imageUri) {
+                  crossfade(true)
+                  crossfade(1000)
+                  transformations(RoundedCornersTransformation(30f))
+              }
+              ken.pause()
+          }
 
-        constraintSet.clone(layout)
+          constraintSet.clone(layout)
 
-        for (index in 1..post.lineNum) {
-            textView = when (index) {
-                1 -> textView1
-                2 -> textView2
-                3 -> textView3
-                4 -> textView4
-                5 -> textView5
-                6 -> textView6
-                7 -> textView7
-                8 -> textView8
-                9 -> textView9
-                10 -> textView10
-                else -> textView1
-            }
+          for (index in 1..post.lineNum) {
+              textView = when (index) {
+                  1 -> textView1
+                  2 -> textView2
+                  3 -> textView3
+                  4 -> textView4
+                  5 -> textView5
+                  6 -> textView6
+                  7 -> textView7
+                  8 -> textView8
+                  9 -> textView9
+                  10 -> textView10
+                  else -> textView1
+              }
 
-            createTextView(index, textView, post, context, layout)
-            locateTextView(index, textView, post)
+              createTextView(index, textView, post, context, layout)
+              locateTextView(index, textView, post)
 
-        }
+          }
 
-        constraintSet.applyTo(layout)
+          constraintSet.applyTo(layout)
 
 
-    }*/
+      }*/
 
 
     fun drawPost(context: Context, post: Post, layout: ConstraintLayout) {
@@ -139,9 +144,9 @@ class DrawGeneralPost() : BaseActivity() {
         val pref = context.getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
         var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, FALSE)
 
-       /* if (post.postNum==1000){
-            logi("DrawGeneral 56   newPost1=${post}")
-        }*/
+        /* if (post.postNum==1000){
+             logi("DrawGeneral 56   newPost1=${post}")
+         }*/
 
         // util.logi("DrawGeneralPost 100      \n     =========>  /n post=$post")
         val textView1 = layout.findViewById<TextView>(R.id.tv1)
@@ -155,9 +160,11 @@ class DrawGeneralPost() : BaseActivity() {
         val textView9 = layout.findViewById<TextView>(R.id.tv9)
         val textView10 = layout.findViewById<TextView>(R.id.tv10)
         val textView11 = layout.findViewById<TextView>(R.id.tv11)
+        val textView12 = layout.findViewById<TextView>(R.id.tv12)
         var textView = layout.findViewById<TextView>(R.id.tv10)
         val image = layout.findViewById<ImageView>(R.id.pagerImage)
         val ken = layout.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
+        val putTubePlayer = layout.findViewById<YouTubePlayerView>(R.id.youtube_player_view2)
 
         textView1.text = ""
         textView2.text = ""
@@ -170,16 +177,43 @@ class DrawGeneralPost() : BaseActivity() {
         textView9.text = ""
         textView10.text = ""
         textView11.text = ""
+        textView12.text = ""
 
-        if (movingBackgroundMode== TRUE){
-            ken.load(post.imageUri){
+
+        val audioPosition = pref.getString(AUDIO_POSITION, FALSE)
+        //  logi("DrawGeneral 180  audioPosition=$audioPosition      audioPosition== TRUE=${audioPosition== TRUE}  ")
+//       interval=0f
+      /* if (audioPosition == TRUE) {
+             interval=0f
+             logi("DrawGeneral 182 inside  audioPosition== TRUE==>${audioPosition == TRUE}    interval=$interval"  )
+        }*/
+
+       /* lifecycle.addObserver(putTubePlayer)
+        putTubePlayer.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val url = post.videoUrl
+
+                    youTubePlayer.loadVideo(url, interval)
+
+            }
+        })*/
+
+
+
+
+
+
+
+        if (movingBackgroundMode == TRUE) {
+            ken.load(post.imageUri) {
                 crossfade(true)
                 crossfade(1000)
                 transformations(RoundedCornersTransformation(30f))
             }
             ken.resume()
-        }else{
-            image.load(post.imageUri){
+        } else {
+            image.load(post.imageUri) {
                 crossfade(true)
                 crossfade(1000)
 //                transformations(RoundedCornersTransformation(30f))      //    *********
@@ -201,6 +235,7 @@ class DrawGeneralPost() : BaseActivity() {
                 9 -> textView9
                 10 -> textView10
                 11 -> textView11
+                12 -> textView12
                 else -> textView1
             }
 
@@ -211,19 +246,20 @@ class DrawGeneralPost() : BaseActivity() {
         constraintSet.applyTo(layout)
 
     }
-    private fun showPost(post:Post) {
-        if (post.postNum==1000){
+
+    private fun showPost(post: Post) {
+        if (post.postNum == 1000) {
 //             if (post.postNum==901){
 //             if (post.postNum==4940){
             logi("DrawGeneral 135   post.postMargin=${post.postMargin.joinToString()}")
         }
     }
 
-   /* private fun createTextView(
-        index: Int, textView: TextView, post: Post, context: Context, layout: ConstraintLayout
-    ) {
+    /* private fun createTextView(
+         index: Int, textView: TextView, post: Post, context: Context, layout: ConstraintLayout
+     ) {
 
-    *//*    logi("DrawGeneral 131     post.postNum= ${post.postNum}     \n" +
+     *//*    logi("DrawGeneral 131     post.postNum= ${post.postNum}     \n" +
                 "post.postMargin=${post.postMargin.joinToString()}")*//*
 
         for (index in 1..post.postTextColor.size - 1) {
@@ -279,72 +315,71 @@ class DrawGeneralPost() : BaseActivity() {
         textView.gravity = Gravity.CENTER
 
     }*/
-   private fun createTextView(
-       index: Int, textView: TextView, post: Post, context: Context, layout: ConstraintLayout
-   ) {
+    private fun createTextView(
+        index: Int, textView: TextView, post: Post, context: Context, layout: ConstraintLayout
+    ) {
 //       util.logi("Draw GeneralPost 142  ${post.postTextColor.joinToString()}")
 
-       for (index in 1..post.postTextColor.size - 1) {
-           /* if (!post.postTextColor[index].contains("#")) {
-                post.postTextColor[index] = "#" + post.postTextColor[index]
-            }*/
-           var col = post.postTextColor[index]
+        for (index in 1..post.postTextColor.size - 1) {
+            /* if (!post.postTextColor[index].contains("#")) {
+                 post.postTextColor[index] = "#" + post.postTextColor[index]
+             }*/
+            var col = post.postTextColor[index]
 //           util.logi("Draw GeneralPost 147    col=$col")
-           col = col.replace("$", "")
-           col = col.replace("#", "")
-           col = "#$col"
-           post.postTextColor[index] = col
+            col = col.replace("$", "")
+            col = col.replace("#", "")
+            col = "#$col"
+            post.postTextColor[index] = col
 
-           //  util.logi("Draw GeneralPost 152  ${post.postTextColor.joinToString()}")
-       }
-       val ind = index - 1
-       //   val add=textView.lineHeight
-     //  textView.setLineSpacing(1f, post.lineSpacing)
-       post.lineSpacing?.let { textView.setLineSpacing(1f, it.toFloat()) }
+            //  util.logi("Draw GeneralPost 152  ${post.postTextColor.joinToString()}")
+        }
+        val ind = index - 1
+        //   val add=textView.lineHeight
+        //  textView.setLineSpacing(1f, post.lineSpacing)
+        post.lineSpacing?.let { textView.setLineSpacing(1f, it.toFloat()) }
 
 
 /*int lineHeight = textView.getLineHeight();
 float add = tvSampleText.getLineSpacingExtra();          // API 16+
 float mult = tvSampleText.getLineSpacingMultiplier(); */
-       /*textView.setLineSpacing(float add, float mult)*/
+        /*textView.setLineSpacing(float add, float mult)*/
 
 
-       textView.text = post.postText[ind]
+        textView.text = post.postText[ind]
 //  util.logi("Draw GeneralPost 149   ${post.postTextColor.joinToString()}")
-       if (post.postTextColor[0] == CONSTANT) {
-           textView.setTextColor(Color.parseColor(post.postTextColor[1]))
-       } else {
-           textView.setTextColor(Color.parseColor(post.postTextColor[1]))
-       }
-       if (post.postTextSize[0] == 0) {
-           textView.textSize = post.postTextSize[1].toFloat()
-       } else {
-           textView.textSize = post.postTextSize[index].toFloat()
-       }
-       val tra = helper.getTransfo(post.postTransparency)
-       val shape = GradientDrawable()
+        if (post.postTextColor[0] == CONSTANT) {
+            textView.setTextColor(Color.parseColor(post.postTextColor[1]))
+        } else {
+            textView.setTextColor(Color.parseColor(post.postTextColor[1]))
+        }
+        if (post.postTextSize[0] == 0) {
+            textView.textSize = post.postTextSize[1].toFloat()
+        } else {
+            textView.textSize = post.postTextSize[index].toFloat()
+        }
+        val tra = helper.getTransfo(post.postTransparency)
+        val shape = GradientDrawable()
 
 
-
-//       shape.cornerRadius = post.postRadiuas.toPx().toFloat()      //   **************
+     shape.cornerRadius = post.postRadiuas.toPx().toFloat()
 
 // util.logi("Draw GeneralPost 164  post.postBackground= ${post.postBackground}")
 
-       post.postBackground = post.postBackground.replace("#", "")
-       post.postBackground = post.postBackground.replace("$", "")
+        post.postBackground = post.postBackground.replace("#", "")
+        post.postBackground = post.postBackground.replace("$", "")
 
-       shape.setColor(Color.parseColor("#$tra${post.postBackground}"))
-       textView.background = shape
-       val fontAddress = helper.getFamilyFont(post.postFontFamily)
-       textView.typeface = ResourcesCompat.getFont(context, fontAddress)
-       textView.setPadding(
-           post.postPadding[0].toPx(),
-           post.postPadding[1].toPx(),
-           post.postPadding[2].toPx(),
-           post.postPadding[3].toPx()
-       )
-       textView.gravity = Gravity.CENTER
-   }
+        shape.setColor(Color.parseColor("#$tra${post.postBackground}"))
+        textView.background = shape
+        val fontAddress = helper.getFamilyFont(post.postFontFamily)
+        textView.typeface = ResourcesCompat.getFont(context, fontAddress)
+        textView.setPadding(
+            post.postPadding[0].toPx(),
+            post.postPadding[1].toPx(),
+            post.postPadding[2].toPx(),
+            post.postPadding[3].toPx()
+        )
+        textView.gravity = Gravity.CENTER
+    }
 
 
     private fun locateTextView(
@@ -380,22 +415,22 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
         val line = index - 1
         val ind1 = post.lineNum - line - 1
         var top = post.textLocation[1]
-        if (top!= NO_TOP){
-            top=top.toPx()
+        if (top != NO_TOP) {
+            top = top.toPx()
         }
         val dis = post.textLocation[2].toPx()
         var bottom = post.textLocation[3]
-        if (bottom!= NO_BOTTOM){
-            bottom=bottom.toPx()
+        if (bottom != NO_BOTTOM) {
+            bottom = bottom.toPx()
         }
         val line1 = post.textLocation[4]                                   // from this line
-        val dis1 =  post.textLocation[5].toPx()
+        val dis1 = post.textLocation[5].toPx()
         val line2 = post.textLocation[6]                                // from this line
-        val dis2 =  post.textLocation[7].toPx()
-        var distanceBotton =bottom + dis * ind1
-        var distanceTop =top + dis * line
+        val dis2 = post.textLocation[7].toPx()
+        var distanceBotton = bottom + dis * ind1
+        var distanceTop = top + dis * line
 
-        if (line==0) {
+        if (line == 0) {
 //              util.logi("------------------" )
 //            util.logi("DrawGeneral 280 inside  arangeText102 top=$top dis=$dis bottom=$bottom line1=$line1 dis1=$dis1  line2=$line2 dis2=$dis2" )
         }
@@ -425,7 +460,7 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
 //                util.logi("DrawGeneral 305  line=$line   line1=$line1 ")
                 distanceTop += dis1
             }
-            if (line >=line2) {
+            if (line >= line2) {
                 distanceTop += dis2
             }
             constraintSet.connect(
@@ -436,15 +471,6 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
             )
         }
     }
-
-
-
-
-
-
-
-
-
 
 
     /* private fun locateTextView(
@@ -564,7 +590,7 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
             if (line <= line1) {
                 distance += dis1
             }
-            if (line <= line2 && line>=line1 ) {
+            if (line <= line2 && line >= line1) {
                 distance += dis2
             }
             constraintSet.connect(
@@ -580,7 +606,7 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
             if (line <= line1) {
                 distance += dis1
             }
-            if (line <= line2 && line>=line1 ) {
+            if (line <= line2 && line >= line1) {
                 distance += dis2
             }
             constraintSet.connect(
@@ -613,45 +639,45 @@ float mult = tvSampleText.getLineSpacingMultiplier(); */
     }
 
 
-   /* private fun locateTextView(
-        index: Int,
-        textView: TextView,
-        post: Post
-    ) {
-        constraintSet.clear(textView.id, ConstraintSet.TOP)
-        constraintSet.clear(textView.id, ConstraintSet.BOTTOM)
-        val ind = index - 1
-    //    logi("DrawGeneralPost 195  postMargin=${post.postMargin.joinToString()}")
-     //   logi("DrawGeneralPost 196  index=$index   ind=$ind   post=$post")
-        if (post.postMargin[ind][3] == -1) {
-            constraintSet.connect(
-                textView.id,
-                ConstraintSet.TOP,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.TOP, post.postMargin[ind][1].toPx()
-            )
-        }
-        if (post.postMargin[ind][1] == -1) {
-            constraintSet.connect(
-                textView.id,
-                ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.BOTTOM, post.postMargin[ind][3].toPx()
-            )
-        }
-    }*/
+    /* private fun locateTextView(
+         index: Int,
+         textView: TextView,
+         post: Post
+     ) {
+         constraintSet.clear(textView.id, ConstraintSet.TOP)
+         constraintSet.clear(textView.id, ConstraintSet.BOTTOM)
+         val ind = index - 1
+     //    logi("DrawGeneralPost 195  postMargin=${post.postMargin.joinToString()}")
+      //   logi("DrawGeneralPost 196  index=$index   ind=$ind   post=$post")
+         if (post.postMargin[ind][3] == -1) {
+             constraintSet.connect(
+                 textView.id,
+                 ConstraintSet.TOP,
+                 ConstraintSet.PARENT_ID,
+                 ConstraintSet.TOP, post.postMargin[ind][1].toPx()
+             )
+         }
+         if (post.postMargin[ind][1] == -1) {
+             constraintSet.connect(
+                 textView.id,
+                 ConstraintSet.BOTTOM,
+                 ConstraintSet.PARENT_ID,
+                 ConstraintSet.BOTTOM, post.postMargin[ind][3].toPx()
+             )
+         }
+     }*/
 
- /*  private fun locateTextView(
-       index: Int,
-       textView: TextView,
-       post: Post
-   ) {
-       constraintSet.clear(textView.id, ConstraintSet.TOP)
-       constraintSet.clear(textView.id, ConstraintSet.BOTTOM)
-       val ind = index - 1
-       val ind1=post.lineNum-ind-1
-     //  logi("DrawGeneralPost  378  index=$index   ind=$ind       postNum=${post.postNum}")
-       *//*         arrayListOf(  0,   -1 + di,   0,   90 + dd  ),
+    /*  private fun locateTextView(
+          index: Int,
+          textView: TextView,
+          post: Post
+      ) {
+          constraintSet.clear(textView.id, ConstraintSet.TOP)
+          constraintSet.clear(textView.id, ConstraintSet.BOTTOM)
+          val ind = index - 1
+          val ind1=post.lineNum-ind-1
+        //  logi("DrawGeneralPost  378  index=$index   ind=$ind       postNum=${post.postNum}")
+          *//*         arrayListOf(  0,   -1 + di,   0,   90 + dd  ),
               arrayListOf(  0,   -1 + di,   0,   60 + dd  ),
               arrayListOf(  0,   -1 + di,   0,   30 + dd  ),
               arrayListOf(  0,   -1 + di,   0,    0 + dd  )

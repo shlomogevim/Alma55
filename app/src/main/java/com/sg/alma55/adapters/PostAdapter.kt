@@ -20,15 +20,18 @@ import com.sg.alma50a.post_drawing.DrawPostCenter
 import com.sg.alma55.R
 import com.sg.alma55.activities.PostDetailesActivity
 import com.sg.alma55.activities_tt.VideoActivity
+import com.sg.alma55.activities_tt.VideoExplanationActivity
 import com.sg.alma55.modeles.Post
 import com.sg.alma55.post_drawing.DrawGeneralPost
 import com.sg.alma55.utilities.BaseActivity
 import com.sg.alma55.utilities.Constants
+import com.sg.alma55.utilities.Constants.AUDIO_POSITION
 import com.sg.alma55.utilities.Constants.FALSE
 import com.sg.alma55.utilities.Constants.SHARPREF_ALMA
 import com.sg.alma55.utilities.Constants.SHARPREF_CURRENT_POST
 import com.sg.alma55.utilities.Constants.SHARPREF_MOVING_BACKGROUND
 import com.sg.alma55.utilities.Constants.TRUE
+import com.sg.alma55.utilities.Constants.VIDEO_TEXT
 import com.sg.alma55.utilities.UtilityPost
 
 import kotlin.collections.ArrayList
@@ -41,7 +44,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
     val base = BaseActivity()
     val pref = context.getSharedPreferences(SHARPREF_ALMA, Context.MODE_PRIVATE)
-    var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, TRUE)
+// var movingBackgroundMode = pref.getString(SHARPREF_MOVING_BACKGROUND, FALSE)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -66,6 +69,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
         val image = itemView?.findViewById<ImageView>(R.id.pagerImage)
         val ken = itemView.findViewById<com.flaviofaria.kenburnsview.KenBurnsView>(R.id.tour_image)
         val postVideoBtn=itemView?.findViewById<Button>(R.id.videoBtn)
+        val postAudioBtn=itemView?.findViewById<Button>(R.id.audioBtn)
 
 /*  fun bindImage(post: Post) {
             DrawGeneralPost().drawPost(context, post, layout)  // onClick include in here
@@ -102,6 +106,7 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 
 
         fun bindImage(post: Post) {
+            pref.edit().putString(AUDIO_POSITION, FALSE).apply()
             DrawGeneralPost().drawPost(context, post, layout)
             image.setOnClickListener {
                 val editor = pref.edit()
@@ -126,9 +131,32 @@ class PostAdapter(val context: Context, val posts: ArrayList<Post>) :
 //                 context.startActivity(intent)
                     context.startActivity(Intent(context, VideoActivity::class.java))
                 }
+                postAudioBtn.setOnClickListener {
+                    val textVideo=post.videoText
+                    val intent=Intent(context, VideoExplanationActivity::class.java)
+                    intent.putExtra(VIDEO_TEXT,textVideo)
+                    context.startActivity(intent)
+                }
+                /*postAudioBtn.setOnClickListener {
+                    pref.edit().putString(AUDIO_POSITION, TRUE).apply()
+                    DrawGeneralPost().drawPost(context, post, layout)
+                }*/
             }
         }
     }
+    /*  videoExplanationBtn.setOnClickListener {
+            val textVideo=post.videoText
+            val intent=Intent(context,VideoExplanationActivity::class.java)
+            intent.putExtra(VIDEO_TEXT,textVideo)
+            context.startActivity(intent)
+        }
+
+        videoPostBtn.setOnClickListener {
+            val intent = Intent(context, VideoActivity::class.java)
+            intent.putExtra(VIDEO_URL, post.videoUrl)
+            intent.putExtra(VIDEO_TEXT, post.videoText)
+            context.startActivity(intent)
+        }*/
 
 }
 

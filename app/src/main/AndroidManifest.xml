@@ -13,6 +13,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Alma55">
         <activity
+            android:name=".activities_tt.VideoExplanationActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities_tt.VideoExplantionActivity"
             android:exported="false" />
         <activity

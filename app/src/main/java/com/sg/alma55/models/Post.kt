@@ -20,7 +20,7 @@ data class Post(
     var textLocation:ArrayList<Int> = arrayListOf<Int>(100,0,0,0,0),
     var postTextColor:ArrayList<String> = arrayListOf<String>(),
     var postFontFamily:Int=0,
-    var postRadiuas:Int=0,
+    var postRadiuas:Int=16,
     var timestamp: Timestamp?=null,
     var lineSpacing: Double? =1.4,
     var grade:Int=0,

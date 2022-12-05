@@ -92,6 +92,8 @@ object Constants {
     const val SHARPREF_CURRENT_USER_NAME = "ShareprefCurrentUserName"
     const val SHARPREF_NO_USER = "ShareprefNoUser"
 
+    const val AUDIO_POSITION="audio_position"
+    const val VIDEO_TEXT="current_text"
 
 
 

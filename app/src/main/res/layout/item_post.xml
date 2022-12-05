@@ -6,6 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:autoPlay="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <com.flaviofaria.kenburnsview.KenBurnsView
         android:id="@+id/tour_image"
@@ -27,8 +38,18 @@
         app:rippleColor="@color/black"
         android:layout_marginStart="2dp"
         android:layout_marginTop="0dp"
-        android:backgroundTint="@color/sea"
-        />
+        android:backgroundTint="@color/sea" />
+    <Button
+        android:id="@+id/audioBtn"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cornerRadius="20dp"
+        app:rippleColor="@color/black"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="0dp"
+        android:backgroundTint="@color/colorSnackBarSuccess" />
 
     <ImageView
         android:id="@+id/pagerImage"
@@ -165,4 +186,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="440dp"   />
+    <TextView
+        android:id="@+id/tv12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="480dp"   />
 </androidx.constraintlayout.widget.ConstraintLayout>
