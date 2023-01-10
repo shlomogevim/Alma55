@@ -8,6 +8,7 @@ import android.os.Handler
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -158,16 +159,31 @@ class MainActivity : BaseActivity() {
         // layoutManger.stackFromEnd=true
         rvPosts.layoutManager = layoutManger
 
-        val snapHelper = LinearSnapHelper()
-        rvPosts.setOnFlingListener(null)
-        snapHelper.attachToRecyclerView(rvPosts)
-        rvPosts.isNestedScrollingEnabled = false
+//        val snapHelper = LinearSnapHelper()
+//        rvPosts.setOnFlingListener(null)
+//        snapHelper.attachToRecyclerView(rvPosts)
 
+        val snapHelper1=PagerSnapHelper()
+        rvPosts.setOnFlingListener(null)
+        snapHelper1.attachToRecyclerView(rvPosts)
+
+
+        rvPosts.isNestedScrollingEnabled = false
         postAdapter = PostAdapter(this, posts)
         rvPosts.adapter = postAdapter
         rvPosts.setHasFixedSize(true)
         postAdapter.notifyDataSetChanged()
     }
+
+    /*RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+SnapHelper snapHelper = new PagerSnapHelper();
+recyclerView.setLayoutManager(layoutManager);
+snapHelper.attachToRecyclerView(mRecyclerView);*/
+
+
+
+
 
     private fun sortPosts() {
         if (sortSystem == SHARPREF_SORT_BY_RECOMMENDED) {
