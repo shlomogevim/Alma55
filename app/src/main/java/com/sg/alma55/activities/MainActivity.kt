@@ -46,9 +46,10 @@ class MainActivity : BaseActivity() {
     lateinit var pref: SharedPreferences
     lateinit var gson: Gson
     var sortSystem = "NoValue"
-  //  lateinit var currentPost: Post
-    var currentPostNum = 0
 
+  //  lateinit var currentPost: Post
+
+    var currentPostNum = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,9 +71,7 @@ class MainActivity : BaseActivity() {
 
        // setVideoBtn()
 
-
-
-    }
+   }
 
 
    /* private fun setVideoBtn() {
